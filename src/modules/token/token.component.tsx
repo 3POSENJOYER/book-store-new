@@ -3,6 +3,9 @@ import {
 	Header,
 } from './components/header.component'
 import {
+	Products,
+} from './components/products/products'
+import {
 	Main,
 } from './components/main'
 
@@ -12,8 +15,9 @@ export const App: React.FC = () => {
 	return (
 		<div>
 			<Header />
+			<Products/>
 			<div className={styles.body}>
-			</div>
+			Products</div>
 			<Main/>
 		</div>
 	)
