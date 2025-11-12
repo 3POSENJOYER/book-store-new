@@ -16,6 +16,7 @@ export const Products: React.FC = () => {
 	interface Product {
 		productID: number
 		productName: string
+		produtDescription:string
 		frontImg?: string
 		backImg?: string
 		productPrice: number
@@ -36,7 +37,7 @@ export const Products: React.FC = () => {
 		},)
 	}
 	return (
-		<div>
+		<div className='container'>
 			{StoreData.map((product: Product,) => {
 				return (
 					<div className="trendyProductContainer" key={product.productID}>

@@ -20,7 +20,6 @@ export const App: React.FC = () => {
 		<div>
 			<BrowserRouter>
 				<Header />
-
 				<Routes>
 					<Route path='/' element={<Main />} />
 					<Route path='/products' element={<Products />} />

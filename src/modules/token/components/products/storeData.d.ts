@@ -3,6 +3,7 @@ declare module './data' {
     productID: number;
 	  frontImg: string;
 	  backImg: string;
+    produtDescription:string;
     productName: string;
     productPrice: number;
     productReviews: string;
