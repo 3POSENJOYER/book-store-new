@@ -120,7 +120,9 @@
 	font-size: 14px;
 	position: relative;
 }
-
+.prevNextLink p{
+	color: black;
+}
 .prevNextLink a::after {
 	content: '';
 	position: absolute;
@@ -155,6 +157,7 @@
 }
 
 .productPrice h3 {
+	color: black;
 	font-size: 22px;
 	font-weight: 600;
 	margin-bottom: 20px;

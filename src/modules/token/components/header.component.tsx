@@ -1,24 +1,22 @@
-import React, {
-	useState,
-} from 'react'
-import './header.css'
-
-import {
-	FiSearch,
-} from 'react-icons/fi'
+import Badge from '@mui/material/Badge'
+import React from 'react'
 import {
 	FaRegUser,
 } from 'react-icons/fa6'
 import {
-	FiHeart,
+	FiHeart, FiSearch,
 } from 'react-icons/fi'
-
+import {
+	RiShoppingBagLine,
+} from 'react-icons/ri'
 import {
 	Link,
 } from 'react-router-dom'
+import logo from '../../../assets/icons/logo.png'
+import './header.css'
 
 export const Header: React.FC = () => {
-	const scrollToTop = ():void => {
+	const scrollToTop = (): void => {
 		window.scrollTo({
 			top:      0,
 			behavior: 'smooth',
@@ -30,34 +28,34 @@ export const Header: React.FC = () => {
 				<div className='logoLinkContainer'>
 					<div className='logoContainer'>
 						<Link to='/' onClick={scrollToTop}>
-							<h2>books store</h2>
+							<img src={logo} alt='logo'/>
 						</Link>
 					</div>
 					<div className='linkContainer'>
 						<ul>
 							<li>
 								<Link to='/' onClick={scrollToTop}>
-                  HOME
+									HOME
 								</Link>
 							</li>
 							<li>
 								<Link to='/shop' onClick={scrollToTop}>
-                  SHOP
+									SHOP
 								</Link>
 							</li>
 							<li>
 								<Link to='/blog' onClick={scrollToTop}>
-                  BLOG
+									BLOG
 								</Link>
 							</li>
 							<li>
 								<Link to='/about' onClick={scrollToTop}>
-                  ABOUT
+									ABOUT
 								</Link>
 							</li>
 							<li>
 								<Link to='/contact' onClick={scrollToTop}>
-                  CONTACT
+									CONTACT
 								</Link>
 							</li>
 						</ul>
@@ -69,10 +67,8 @@ export const Header: React.FC = () => {
 						<FaRegUser size={22} />
 					</Link>
 					<Link to='/cart' onClick={scrollToTop}>
-						{/* <Badge
-							badgeContent={cart.items.length === 0 ?
-								'0' :
-								cart.items.length}
+						<Badge
+							badgeContent='0'
 							color='primary'
 							anchorOrigin={{
 								vertical:   'bottom',
@@ -80,10 +76,9 @@ export const Header: React.FC = () => {
 							}}
 						>
 							<RiShoppingBagLine size={22} />
-						</Badge>*/}
+						</Badge>
 					</Link>
 					<FiHeart size={22} onClick={scrollToTop} />
-
 				</div>
 			</nav>
 		</>
@@ -91,4 +86,3 @@ export const Header: React.FC = () => {
 }
 
 export default Header
-

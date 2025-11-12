@@ -31,8 +31,6 @@ export const ProductDeatlis: React.FC = () => {
 	const decrement = (): void => {
 		if (quantity > 1) {
 			setQuantity(quantity - 1,)
-		} else if (quantity === 1) {
-			setQuantity(last,)
 		}
 	}
 	const {
@@ -101,10 +99,10 @@ export const ProductDeatlis: React.FC = () => {
 							<FaStar color='#FEC78A' size={10} />
 							<FaStar color='#FEC78A' size={10} />
 							<FaStar color='#FEC78A' size={10} />
-							<p>8k+ reviews</p>
+							<p>{detail.productReviews}</p>
 						</div>
 						<div className='productPrice'>
-							<h3>$90</h3>
+							<h3>{detail.productPrice}$</h3>
 						</div>
 						<div className='productDescription'>
 							<p>
