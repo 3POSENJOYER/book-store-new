@@ -11,6 +11,7 @@ import {
 import {
 	Products,
 } from './components/products/products'
+import Authentication from '../../pages/Authentication'
 import ShopDetails from './components/Shop/ShopDetails/ShopDetails'
 
 import {
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
 				<Routes>
 					<Route path='/' element={<Main />} />
 					<Route path='/products' element={<Products />} />
+					<Route path='/loginSignUp' element={<Authentication />} />
 					<Route path='/shop' element={<ShopDetails />} />
 					<Route path='/product/:id' element={<ProductDeatlis />} />{' '}
 				</Routes>
