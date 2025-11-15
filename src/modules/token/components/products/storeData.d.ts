@@ -6,6 +6,7 @@ declare module './data' {
     produtDescription:string;
     productName: string;
     productPrice: number;
+    count:          number,
     productReviews: string;
   }
 

@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 /* eslint-disable jsx-quotes */
 import React, {
-	useState,
+	useEffect, useState,
 } from 'react'
 import {
 	Link,
@@ -9,7 +10,7 @@ import StoreData from './data'
 
 import './products.css'
 export const Products: React.FC = () => {
-	const [storeData, setStoreData,] = useState<Product | null>(null,)
+	const [storeData, setStoreData,] = useState<Array<Product>>([],)
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	interface Product {
 		productID: number
@@ -25,9 +26,30 @@ export const Products: React.FC = () => {
 			return el.productID === id
 		},)
 		if (data) {
-			setStoreData(data,)
+			setStoreData((prev,) => {
+				return [...prev, data,]
+			},)
 		}
 	}
+	useEffect(() => {
+		const postData = async(): Promise<void> => {
+			try {
+				const res = await fetch('storeDataServer', {
+					method:  'POST',
+					headers: {
+						'Content-Type': 'application/json; charset=UTF-8',
+					},
+					body: JSON.stringify(storeData,),
+				},)
+
+				const response = await res.json()
+				console.log(response,)
+			} catch (err) {
+				console.error(err,)
+			}
+		}
+		postData()
+	}, [storeData,],)
 	const scrollToTop = (): void => {
 		window.scrollTo({
 			top:      0,

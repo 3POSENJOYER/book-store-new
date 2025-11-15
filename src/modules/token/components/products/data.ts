@@ -33,6 +33,7 @@ const StoreData = [
 
 		productName:    'The Path to Mastery',
 		productPrice:   15600,
+		count:          20,
 		productReviews: '1.2 milion reviews',
 	},
 	{
@@ -43,6 +44,7 @@ const StoreData = [
 			'A thrilling novel set in a mystical forest where nature hides ancient secrets and the line between good and evil blurs.',
 		productName:    'Whispers of the Forest',
 		productPrice:   24,
+		count:          17,
 		productReviews: '3.4k reviews',
 	},
 	{
@@ -53,6 +55,7 @@ const StoreData = [
 			'A captivating tale of alchemy, ambition, and the eternal quest for transformation — both spiritual and physical.',
 		productName:    'The Alchemist’s Secret',
 		productPrice:   31,
+		count:          12,
 		productReviews: '5.1k reviews',
 	},
 	{
@@ -63,6 +66,7 @@ const StoreData = [
 			'A heartwarming story about courage, friendship, and a mysterious bunny that changes everything.',
 		productName:    'We Love Bunny',
 		productPrice:   18,
+		count:          20,
 		productReviews: '2.9k reviews',
 	},
 	{
@@ -73,6 +77,7 @@ const StoreData = [
 			'A fast-paced sci-fi adventure exploring a world powered by dark crystals and the rise of the Onyx Storm.',
 		productName:    'Onyx Storm',
 		productPrice:   27,
+		count:          35,
 		productReviews: '4.8k reviews',
 	},
 	{
@@ -83,6 +88,7 @@ const StoreData = [
 			'A powerful self-development book teaching how to stay calm, confident, and unshakable under any pressure.',
 		productName:    'Never Flinch',
 		productPrice:   21,
+		count:          56,
 		productReviews: '6.5k reviews',
 	},
 	{
@@ -93,6 +99,7 @@ const StoreData = [
 			'A dark psychological thriller following Dexter, a detective with dreams darker than the crimes he solves.',
 		productName:    'Darkly Dreaming Dexter',
 		productPrice:   32,
+		count:          12,
 		productReviews: '12k reviews',
 	},
 	{
@@ -103,6 +110,7 @@ const StoreData = [
 			'An epic fantasy saga where gods battle mortals for control over destiny itself. Perfect for fans of mythology.',
 		productName:    'The Fury of the Gods',
 		productPrice:   35,
+		count:          48,
 		productReviews: '9.7k reviews',
 	},
 	{
@@ -113,6 +121,7 @@ const StoreData = [
 			'A dark fantasy romance filled with dangerous secrets, ancient curses, and forbidden love that defies fate.',
 		productName:    'Wicked Whispers',
 		productPrice:   26,
+		count:          5,
 		productReviews: '9.1k reviews',
 	},
 	{
@@ -123,6 +132,7 @@ const StoreData = [
 			'A dark fantasy romance filled with dangerous secrets, ancient curses, and forbidden love that defies fate.',
 		productName:    'Wicked Whispers',
 		productPrice:   26,
+		count:          2,
 		productReviews: '9.1k reviews',
 	},
 	{
@@ -133,6 +143,7 @@ const StoreData = [
 			'A gripping post-apocalyptic thriller set in a world buried beneath dust and silence, where hope lives underground.',
 		productName:    'Wool',
 		productPrice:   24,
+		count:          15,
 		productReviews: '12.4k reviews',
 	},
 	{
@@ -143,6 +154,7 @@ const StoreData = [
 			'A modern retelling of Shakespearean tragedy where loyalty and power collide in a city ruled by violence.',
 		productName:    'These Violent Delights',
 		productPrice:   27,
+		count:          15,
 		productReviews: '15.2k reviews',
 	},
 	{
@@ -153,6 +165,7 @@ const StoreData = [
 			'A touching memoir of survival and healing that traces the author’s journey from loss to liberation.',
 		productName:    'Loss and Liberation',
 		productPrice:   22,
+		count:          46,
 		productReviews: '6.9k reviews',
 	},
 	{
@@ -163,6 +176,7 @@ const StoreData = [
 			'A motivational guide to unlocking your imagination and building a life filled with artistic purpose.',
 		productName:    'Creative Awakening',
 		productPrice:   19,
+		count:          1,
 		productReviews: '5.2k reviews',
 	},
 	{
@@ -173,6 +187,7 @@ const StoreData = [
 			'A heartwarming travelogue through the world’s most charming bookshops and the stories they hold.',
 		productName:    'The Bookshop Diaries',
 		productPrice:   21,
+		count:          54,
 		productReviews: '8.7k reviews',
 	},
 	{
@@ -183,6 +198,7 @@ const StoreData = [
 			'A psychological novel exploring friendship, betrayal, and the chilling loneliness of modern life.',
 		productName:    'No Friend But the Night',
 		productPrice:   25,
+		count:          123,
 		productReviews: '10.3k reviews',
 	},
 	{
@@ -193,6 +209,7 @@ const StoreData = [
 			'A dark fairy tale about thorns, monsters, and the fragile hope hidden behind ancient walls.',
 		productName:    'Thornhedge',
 		productPrice:   23,
+		count:          99,
 		productReviews: '7.6k reviews',
 	},
 	{
@@ -203,6 +220,7 @@ const StoreData = [
 			'A historical romance set amid blooming wars and forbidden gardens, where love must fight to survive.',
 		productName:    'The Rose Field',
 		productPrice:   29,
+		count:          32,
 		productReviews: '11.2k reviews',
 	},
 ]
