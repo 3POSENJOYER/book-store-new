@@ -46,7 +46,7 @@ const LoginSignUp: React.FC = () => {
 			const data = await res.json()
 			console.log('Response:', data,)
 		} catch (err) {
-			console.error('Error:', err,)
+			console.log('Error:', err,)
 		}
 	}
 	return (

@@ -5,6 +5,9 @@ declare module './data' {
 	  backImg: string;
     produtDescription:string;
     productName: string;
+    author: string;
+    genre: string;
+    year: number;
     productPrice: number;
     count:          number,
     productReviews: string;

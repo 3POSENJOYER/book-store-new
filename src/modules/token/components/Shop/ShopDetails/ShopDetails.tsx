@@ -19,26 +19,32 @@ import {
 	Link,
 } from 'react-router-dom'
 import StoreData from '../../../components/products/data'
-import Filter from '../Filters/Filter'
-// import toast from 'react-hot-toast'
 
-const ShopDetails: React.FC = () => {
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	interface Product {
-		productID: number
-		productName: string
-		produtDescription: string
-		frontImg?: string
-		backImg?: string
-		productPrice: number
-		productReviews: string
-	}
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface Product {
+  productID: number
+  productName: string
+  produtDescription: string
+  frontImg?: string
+  backImg?: string
+  productPrice: number
+  productReviews: string
+}
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface ShopDetailsProps {
+  filtered: Array<Product>;
+}
+
+const ShopDetails: React.FC<ShopDetailsProps> = ({
+	filtered,
+},) => {
 	const [isDrawerOpen, setIsDrawerOpen,] = useState(false,)
 	const [selectSort, setSelectSort,] = useState('default',)
-	const [products, setProducts,] = useState(StoreData,)
+	const [products, setProducts,] = useState<Array<Product>>(filtered,)
 
 	useEffect(() => {
-		const sorted = [...StoreData,]
+		const sorted = [...filtered,]
 
 		if (selectSort === 'lowToHigh') {
 			sorted.sort((a, b,) => {
@@ -65,33 +71,36 @@ const ShopDetails: React.FC = () => {
 		}
 
 		setProducts(sorted,)
-	}, [selectSort,],)
+	}, [selectSort, filtered,],)
+
 	const scrollToTop = (): void => {
 		window.scrollTo({
 			top:      0,
 			behavior: 'smooth',
 		},)
 	}
+
 	const toggleDrawer = (): void => {
 		setIsDrawerOpen(!isDrawerOpen,)
 	}
+
 	const closeDrawer = (): void => {
 		setIsDrawerOpen(false,)
 	}
+
 	return (
 		<>
 			<div className='shopDetails'>
 				<div className='shopDetailMain'>
 					<div className='shopDetails__left'>
-						<Filter />
 					</div>
 					<div className='shopDetails__right'>
 						<div className='shopDetailsSorting'>
 							<div className='shopDetailsBreadcrumbLink'>
 								<Link to='/' onClick={scrollToTop}>
-									Home
+                  Home
 								</Link>
-								&nbsp;/&nbsp;
+                &nbsp;/&nbsp;
 								<Link to='/shop'>The Shop</Link>
 							</div>
 							<div className='filterLeft' onClick={toggleDrawer}>
@@ -105,6 +114,7 @@ const ShopDetails: React.FC = () => {
 									}}
 									name='sort'
 									id='sort'
+									value={selectSort}
 								>
 									<option value='default'>Default Sorting</option>
 									<option value='a-z'>Alphabetically, A-Z</option>
@@ -123,7 +133,7 @@ const ShopDetails: React.FC = () => {
 							<div className='shopDetailsProductsContainer'>
 								{products.slice(0, 6,).map((product: Product,) => {
 									return (
-										<div className='sdProductContainer'>
+										<div key={product.productID} className='sdProductContainer'>
 											<div className='sdProductImages'>
 												<Link to={`/product/${product.productID}`} onClick={scrollToTop}>
 													<img
@@ -173,7 +183,7 @@ const ShopDetails: React.FC = () => {
 							<div className='sdPaginationPrev'>
 								<p onClick={scrollToTop}>
 									<FaAngleLeft />
-									Prev
+                  Prev
 								</p>
 							</div>
 							<div className='sdPaginationNumber'>
@@ -186,7 +196,7 @@ const ShopDetails: React.FC = () => {
 							</div>
 							<div className='sdPaginationNext'>
 								<p onClick={scrollToTop}>
-									Next
+                  Next
 									<FaAngleRight />
 								</p>
 							</div>
@@ -194,7 +204,6 @@ const ShopDetails: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			{/* Drawer */}
 			<div className={`filterDrawer ${isDrawerOpen ?
 				'open' :
 				''}`}>
@@ -203,7 +212,6 @@ const ShopDetails: React.FC = () => {
 					<IoClose onClick={closeDrawer} className='closeButton' size={26} />
 				</div>
 				<div className='drawerContent'>
-					<Filter />
 				</div>
 			</div>
 		</>

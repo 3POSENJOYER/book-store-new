@@ -4,7 +4,7 @@ import LoginSignUp from '../modules/token/components/Authentication/LoginSign/Lo
 const Authentication: React.FC = () => {
 	return (
 		<>
-			<LoginSignUp/>
+			<LoginSignUp />
 		</>
 	)
 }

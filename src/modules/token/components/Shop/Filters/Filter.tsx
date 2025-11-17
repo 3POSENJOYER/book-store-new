@@ -1,10 +1,8 @@
-/* eslint-disable multiline-ternary */
-// eslint-disable-next-line multiline-ternary
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import React, {
-	useState,
+	useState, useEffect,
 } from 'react'
 import {
 	BiSearch,
@@ -15,24 +13,55 @@ import {
 import StoreData from '../../products/data'
 import './Filter.css'
 
-const Filter: React.FC = () => {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface Product {
+  productID: number
+  productName: string
+  produtDescription: string
+  frontImg?: string
+  backImg?: string
+  productPrice: number
+  productReviews: string
+  count?: number
+}
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface FilterProps {
+  setFiltered: React.Dispatch<React.SetStateAction<Array<Product>>>;
+}
+
+const Filter: React.FC<FilterProps> = ({
+	setFiltered,
+},) => {
 	const [value, setValue,] = useState([20, 69,],)
-
 	const [searchTerm, setSearchTerm,] = useState('',)
-	const [searchName, setSearchName,] = useState('',)
+	const [selectedBrands, setSelectedBrands,] = useState<Array<string>>([],)
 
-	const handleChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-		newValue: React.SetStateAction<Array<number>>,
-	): void => {
-		setValue(newValue,)
-	}
 	const filteredBrands = StoreData.filter((brand,) => {
 		return brand.productName.toLowerCase().includes(searchTerm.toLowerCase(),)
 	},)
-	const filteredName = StoreData.filter((el,) => {
-		return el.productName === searchName
-	},)
+
+	const handleBrandChange = (brandName: string,): void => {
+		setSelectedBrands((prev,) => {
+			const newSelectedBrands = prev.includes(brandName,) ?
+				prev.filter((brand,) => {
+					return brand !== brandName
+				},) :
+				[...prev, brandName,]
+
+			if (newSelectedBrands.length === 0) {
+				setFiltered(StoreData,)
+			} else {
+				const filteredProducts = StoreData.filter((product,) => {
+					return newSelectedBrands.includes(product.productName,)
+				},
+				)
+				setFiltered(filteredProducts,)
+			}
+
+			return newSelectedBrands
+		},)
+	}
 
 	return (
 		<div>
@@ -70,33 +99,34 @@ const Filter: React.FC = () => {
 								/>
 							</div>
 							<div className='brandList'>
-								{filteredBrands.length > 0 ? (
-									filteredBrands.map((brand, index,) => {
-										return (
-											<div className='brandItem' key={index}>
-												<input
-													type='checkbox'
-													value={searchName}
-													name='brand'
-													onChange={(e,): void => {
-														setSearchName(e.target.value,)
-													}}
-													id={`brand-${index}`}
-													className='brandRadio'
-												/>
-												<label
-													htmlFor={`brand-${index}`}
-													className='brandLabel'
-												>
-													{brand.productName}
-												</label>
-												<span className='brandCount'>{brand.count}</span>
-											</div>
-										)
-									},)
-								) : (
-									<div className='notFoundMessage'>Not found</div>
-								)}
+								{filteredBrands.length > 0 ?
+									(
+										filteredBrands.map((brand,) => {
+											return (
+												<div className='brandItem' key={brand.productID}>
+													<input
+														type='checkbox'
+														checked={selectedBrands.includes(brand.productName,)}
+														onChange={(): void => {
+															handleBrandChange(brand.productName,)
+														}}
+														id={`brand-${brand.productID}`}
+														className='brandRadio'
+													/>
+													<label
+														htmlFor={`brand-${brand.productID}`}
+														className='brandLabel'
+													>
+														{brand.productName}
+													</label>
+													<span className='brandCount'>{brand.count || 0}</span>
+												</div>
+											)
+										},)
+									) :
+									(
+										<div className='notFoundMessage'>Not found</div>
+									)}
 							</div>
 						</AccordionDetails>
 					</Accordion>
@@ -122,10 +152,10 @@ const Filter: React.FC = () => {
 							<div className='filterSliderPrice'>
 								<div className='priceRange'>
 									<p>
-										Min Price: <span>${value[0]}</span>
+                    Min Price: <span>${value[0]}</span>
 									</p>
 									<p>
-										Max Price: <span>${value[1]}</span>
+                    Max Price: <span>${value[1]}</span>
 									</p>
 								</div>
 							</div>
