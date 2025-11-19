@@ -6,59 +6,102 @@ import React, {
 import {
 	Link,
 } from 'react-router-dom'
-import StoreData from './data'
+// ❌ ВИДАЛЯЄМО: Локальний StoreData, оскільки дані тепер надходять з API
+// import StoreData from './data'
 
 import './products.css'
+
+// 💡 Базовий URL для NestJS API
+const API_BASE_URL = 'http://localhost:3000'
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface Product {
+    productID: number
+    productName: string
+    produtDescription: string
+    frontImg?: string
+    backImg?: string
+    productPrice: number
+    productReviews: string
+}
+
 export const Products: React.FC = () => {
-	const [storeData, setStoreData,] = useState<Array<Product>>([],)
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	interface Product {
-		productID: number
-		productName: string
-		produtDescription: string
-		frontImg?: string
-		backImg?: string
-		productPrice: number
-		productReviews: string
-	}
+	// 💡 Оновлюємо стан для зберігання всіх продуктів, отриманих з API
+	const [products, setProducts,] = useState<Array<Product>>([],)
+	// Стан для кошика/відправки на сервер
+	const [cartData, setCartData,] = useState<Array<Product>>([],)
+
+	// --- 1. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ПРОДУКТІВ (З API) ---
+	useEffect(() => {
+		const fetchProducts = async(): Promise<void> => {
+			try {
+				// Використовуємо GET-маршрут для отримання каталогу
+				const res = await fetch(`${API_BASE_URL}/products`,)
+
+				if (!res.ok) {
+					throw new Error(`Failed to fetch products: ${res.status}`,)
+				}
+
+				const data: Array<Product> = await res.json()
+				setProducts(data,)
+			} catch (err) {
+				console.error('Помилка завантаження продуктів:', err,)
+			}
+		}
+		fetchProducts()
+	}, [],)
+
 	const addToCart = (id: number,): void => {
-		const data = StoreData.find((el,) => {
+		// Знаходимо продукт у завантаженому списку products
+		const productToAdd = products.find((el,) => {
 			return el.productID === id
 		},)
-		if (data) {
-			setStoreData((prev,) => {
-				return [...prev, data,]
+		if (productToAdd) {
+			setCartData((prev,) => {
+				return [...prev, productToAdd,]
 			},)
+			console.log(`Продукт ID ${id} додано до кошика (в локальний стан).`,)
 		}
 	}
+
+	// --- 2. ФУНКЦІЯ ВІДПРАВКИ ДАНИХ КОШИКА (ДО API) ---
 	useEffect(() => {
-		const postData = async(): Promise<void> => {
+		// Відправляємо дані на сервер лише якщо cartData не порожній
+		if (cartData.length === 0) {
+			return
+		} const postCartData = async(): Promise<void> => {
 			try {
-				const res = await fetch('storeDataServer', {
+				// 💡 Повний URL до NestJS (POST /storeDataServer)
+				const res = await fetch(`${API_BASE_URL}/storeDataServer`, {
 					method:  'POST',
 					headers: {
 						'Content-Type': 'application/json; charset=UTF-8',
 					},
-					body: JSON.stringify(storeData,),
+					body: JSON.stringify(cartData,),
 				},)
 
 				const response = await res.json()
-				console.log(response,)
+				// 💡 Тепер ви побачите відповідь від вашого ServerDataController
+				console.log('API відповідь на додавання в кошик:', response,)
 			} catch (err) {
-				console.error(err,)
+				console.error('Помилка відправки даних кошика:', err,)
 			}
 		}
-		postData()
-	}, [storeData,],)
+
+		postCartData()
+	}, [cartData,],)
+
 	const scrollToTop = (): void => {
 		window.scrollTo({
 			top:      0,
 			behavior: 'smooth',
 		},)
 	}
+
 	return (
 		<div className='container'>
-			{StoreData.map((product: Product,) => {
+			{/* 💡 Тепер ми використовуємо стан `products`, а не локальний імпорт `StoreData` */}
+			{products.map((product: Product,) => {
 				return (
 					<div className='trendyProductContainer' key={product.productID}>
 						<div className='trendyProductImages'>
@@ -79,7 +122,7 @@ export const Products: React.FC = () => {
 									addToCart(product.productID,)
 								}}
 							>
-								Add to cart
+                                Add to cart
 							</h4>
 						</div>
 						<div className='trendyProductImagesCart'></div>
