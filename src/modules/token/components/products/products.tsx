@@ -6,12 +6,10 @@ import React, {
 import {
 	Link,
 } from 'react-router-dom'
-// ❌ ВИДАЛЯЄМО: Локальний StoreData, оскільки дані тепер надходять з API
-// import StoreData from './data'
 
 import './products.css'
 
-// 💡 Базовий URL для NestJS API
+// Базовий URL для NestJS API
 const API_BASE_URL = 'http://localhost:3000'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -26,12 +24,12 @@ interface Product {
 }
 
 export const Products: React.FC = () => {
-	// 💡 Оновлюємо стан для зберігання всіх продуктів, отриманих з API
+	// Оновлюємо стан для зберігання всіх продуктів, отриманих з API
 	const [products, setProducts,] = useState<Array<Product>>([],)
 	// Стан для кошика/відправки на сервер
 	const [cartData, setCartData,] = useState<Array<Product>>([],)
 
-	// --- 1. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ПРОДУКТІВ (З API) ---
+	// --- ФУНКЦІЯ ЗАВАНТАЖЕННЯ ПРОДУКТІВ (З API) ---
 	useEffect(() => {
 		const fetchProducts = async(): Promise<void> => {
 			try {
@@ -64,14 +62,14 @@ export const Products: React.FC = () => {
 		}
 	}
 
-	// --- 2. ФУНКЦІЯ ВІДПРАВКИ ДАНИХ КОШИКА (ДО API) ---
+	// ---  ФУНКЦІЯ ВІДПРАВКИ ДАНИХ КОШИКА (ДО API) ---
 	useEffect(() => {
 		// Відправляємо дані на сервер лише якщо cartData не порожній
 		if (cartData.length === 0) {
 			return
 		} const postCartData = async(): Promise<void> => {
 			try {
-				// 💡 Повний URL до NestJS (POST /storeDataServer)
+				// Повний URL до NestJS (POST /storeDataServer)
 				const res = await fetch(`${API_BASE_URL}/storeDataServer`, {
 					method:  'POST',
 					headers: {
@@ -81,7 +79,7 @@ export const Products: React.FC = () => {
 				},)
 
 				const response = await res.json()
-				// 💡 Тепер ви побачите відповідь від вашого ServerDataController
+
 				console.log('API відповідь на додавання в кошик:', response,)
 			} catch (err) {
 				console.error('Помилка відправки даних кошика:', err,)
@@ -100,7 +98,7 @@ export const Products: React.FC = () => {
 
 	return (
 		<div className='container'>
-			{/* 💡 Тепер ми використовуємо стан `products`, а не локальний імпорт `StoreData` */}
+
 			{products.map((product: Product,) => {
 				return (
 					<div className='trendyProductContainer' key={product.productID}>
