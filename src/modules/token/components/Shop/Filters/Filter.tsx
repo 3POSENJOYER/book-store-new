@@ -4,6 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import React, {
 	useState, useEffect,
 } from 'react'
+import AuthorFilter from './authorFilter'
 import {
 	BiSearch,
 } from 'react-icons/bi'
@@ -80,7 +81,25 @@ const Filter: React.FC<FilterProps> = ({
 								marginBottom: 2,
 							}}
 						>
-							<h5 className='filterHeading'>Brands</h5>
+							<h5 className='filterHeading'>Author</h5>
+						</AccordionSummary>
+						<AccordionDetails
+							sx={{
+								padding: 0,
+							}}
+						><AuthorFilter setFiltered={setFiltered}/></AccordionDetails>
+					</Accordion>
+					<Accordion defaultExpanded disableGutters elevation={0}>
+						<AccordionSummary
+							expandIcon={<IoIosArrowDown size={20} />}
+							aria-controls='panel1-content'
+							id='panel1-header'
+							sx={{
+								padding:      0,
+								marginBottom: 2,
+							}}
+						>
+							<h5 className='filterHeading'>Book name</h5>
 						</AccordionSummary>
 						<AccordionDetails
 							sx={{
@@ -119,6 +138,7 @@ const Filter: React.FC<FilterProps> = ({
 													>
 														{brand.productName}
 													</label>
+
 													<span className='brandCount'>{brand.count || 0}</span>
 												</div>
 											)

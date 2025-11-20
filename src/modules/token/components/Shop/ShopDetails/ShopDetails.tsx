@@ -131,7 +131,7 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({
 						</div>
 						<div className='shopDetailsProducts'>
 							<div className='shopDetailsProductsContainer'>
-								{products.slice(0, 6,).map((product: Product,) => {
+								{products.slice(0, 12,).map((product: Product,) => {
 									return (
 										<div key={product.productID} className='sdProductContainer'>
 											<div className='sdProductImages'>
