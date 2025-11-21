@@ -1,25 +1,27 @@
-
 import Slider from '@mui/material/Slider'
-import StoreData from '../../products/data'
 import React, {
-	useEffect, useState,
+	useState,
 } from 'react'
-const minDistance = 500
+
+const minDistance = 5
+
 function valuetext(value: number | undefined,): string {
 	return `${value}°C`
 }
-const PriceFilter:React.FC = () => {
-	const [, setError,] = useState(false,)
-	const prices = StoreData.map((p,) => {
-		return p.productPrice
-	},)
-	const min = Math.min(...prices,)
-	const max = Math.max(...prices,)
 
-	useEffect(() => {
-		setValue1([min, max,],)
-	}, [StoreData,],)
-	const [value1, setValue1,] = React.useState<Array<number>>([min, max,],)
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface FilterProps {
+  setValue1: React.Dispatch<React.SetStateAction<Array<number>>>
+  min: number
+  max: number
+  value1: Array<number>
+}
+
+const PriceFilter: React.FC<FilterProps> = ({
+	setValue1, value1, min, max,
+},) => {
+	const [, setError,] = useState(false,)
+
 	const handleChange1 = (
 		event: Event,
 		newValue: Array<number>,
@@ -43,20 +45,18 @@ const PriceFilter:React.FC = () => {
 	}
 
 	return (
-		<div>
-			<Slider
-				min={min}
-				max={max}
-				value={value1}
-				onChange={handleChange1}
-				valueLabelDisplay='auto'
-				getAriaLabel={(): string => {
-					return 'Minimum distance'
-				}}
-				getAriaValueText={valuetext}
-				disableSwap
-			/>
-		</div>
+		<Slider
+			min={min}
+			max={max}
+			value={value1}
+			onChange={handleChange1}
+			valueLabelDisplay='auto'
+			getAriaLabel={():string => {
+				return 'Minimum distance'
+			}}
+			getAriaValueText={valuetext}
+			disableSwap
+		/>
 	)
 }
 

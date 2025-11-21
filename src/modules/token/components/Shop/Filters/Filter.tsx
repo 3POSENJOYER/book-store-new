@@ -2,7 +2,7 @@ import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import React, {
-	useState,
+	useEffect, useState,
 } from 'react'
 import {
 	BiSearch,
@@ -29,11 +29,22 @@ interface Product {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface FilterProps {
 	setFiltered: React.Dispatch<React.SetStateAction<Array<Product>>>
+	value1: Array<number>
+	setValue1: React.Dispatch<React.SetStateAction<Array<number>>>
+	min: number
+	max: number
 }
-
 const Filter: React.FC<FilterProps> = ({
 	setFiltered,
+	value1,
+	setValue1,
+	min,
+	max,
 },) => {
+	useEffect(() => {
+		setValue1([min, max,],)
+	}, [min, max, setValue1,],)
+
 	const [searchTerm, setSearchTerm,] = useState('',)
 	const [selectedBrands, setSelectedBrands,] = useState<Array<string>>([],)
 
@@ -168,7 +179,12 @@ const Filter: React.FC<FilterProps> = ({
 								padding: 0,
 							}}
 						>
-							<PriceFilter />
+							<PriceFilter
+								setValue1={setValue1}
+								value1={value1}
+								min={min}
+								max={max}
+							/>
 						</AccordionDetails>
 					</Accordion>
 				</div>

@@ -18,30 +18,46 @@ import {
 import {
 	Link,
 } from 'react-router-dom'
-import StoreData from '../../../components/products/data'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface Product {
-  productID: number
-  productName: string
-  produtDescription: string
-  frontImg?: string
-  backImg?: string
-  productPrice: number
-  productReviews: string
+	productID: number
+	productName: string
+	produtDescription: string
+	frontImg?: string
+	backImg?: string
+	productPrice: number
+	productReviews: string
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface ShopDetailsProps {
-  filtered: Array<Product>;
+	filtered: Array<Product>
+	value1: [number, number]
 }
 
 const ShopDetails: React.FC<ShopDetailsProps> = ({
-	filtered,
+	filtered, value1,
 },) => {
+	const [isLoading, setIsLoading,] = useState(false,)
 	const [isDrawerOpen, setIsDrawerOpen,] = useState(false,)
 	const [selectSort, setSelectSort,] = useState('default',)
 	const [products, setProducts,] = useState<Array<Product>>(filtered,)
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			setIsLoading(true,)
+			const sorted = filtered.filter((el,) => {
+				return el.productPrice >= value1[0] && el.productPrice <= value1[1]
+			},)
+			setIsLoading(false,)
+
+			setProducts(sorted,)
+		}, 300,)
+
+		return () => {
+			clearTimeout(handler,)
+		}
+	}, [value1, filtered,],)
 
 	useEffect(() => {
 		const sorted = [...filtered,]
@@ -92,15 +108,14 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({
 		<>
 			<div className='shopDetails'>
 				<div className='shopDetailMain'>
-					<div className='shopDetails__left'>
-					</div>
+					<div className='shopDetails__left'></div>
 					<div className='shopDetails__right'>
 						<div className='shopDetailsSorting'>
 							<div className='shopDetailsBreadcrumbLink'>
 								<Link to='/' onClick={scrollToTop}>
-                  Home
+									Home
 								</Link>
-                &nbsp;/&nbsp;
+								&nbsp;/&nbsp;
 								<Link to='/shop'>The Shop</Link>
 							</div>
 							<div className='filterLeft' onClick={toggleDrawer}>
@@ -131,59 +146,67 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({
 						</div>
 						<div className='shopDetailsProducts'>
 							<div className='shopDetailsProductsContainer'>
-								{products.slice(0, 12,).map((product: Product,) => {
-									return (
-										<div key={product.productID} className='sdProductContainer'>
-											<div className='sdProductImages'>
-												<Link to={`/product/${product.productID}`} onClick={scrollToTop}>
-													<img
-														src={product.frontImg}
-														alt=''
-														className='sdProduct_front'
-													/>
-													<img
-														src={product.backImg}
-														alt=''
-														className='sdProduct_back'
-													/>
-												</Link>
-												<h4>Add to Cart</h4>
-											</div>
-											<div className='sdProductImagesCart'>
-												<FaCartPlus />
-											</div>
-											<div className='sdProductInfo'>
-												<div className='sdProductCategoryWishlist'>
-													<FiHeart />
-												</div>
-												<div className='sdProductNameInfo'>
-													<Link to={`/product/${product.productID}`} onClick={scrollToTop}>
-														<h5>{product.productName}</h5>
+								{isLoading ?
+									<div>loading </div> :
+									products.slice(0, 12,).map((product: Product,) => {
+										return (
+											<div key={product.productID} className='sdProductContainer'>
+												<div className='sdProductImages'>
+													<Link
+														to={`/product/${product.productID}`}
+														onClick={scrollToTop}
+													>
+														<img
+															src={product.frontImg}
+															alt=''
+															className='sdProduct_front'
+														/>
+														<img
+															src={product.backImg}
+															alt=''
+															className='sdProduct_back'
+														/>
 													</Link>
+													<h4>Add to Cart</h4>
+												</div>
+												<div className='sdProductImagesCart'>
+													<FaCartPlus />
+												</div>
+												<div className='sdProductInfo'>
+													<div className='sdProductCategoryWishlist'>
+														<FiHeart />
+													</div>
+													<div className='sdProductNameInfo'>
+														<Link
+															to={`/product/${product.productID}`}
+															onClick={scrollToTop}
+														>
+															<h5>{product.productName}</h5>
+														</Link>
 
-													<p>${product.productPrice}</p>
-													<div className='sdProductRatingReviews'>
-														<div className='sdProductRatingStar'>
-															<FaStar color='#FEC78A' size={10} />
-															<FaStar color='#FEC78A' size={10} />
-															<FaStar color='#FEC78A' size={10} />
-															<FaStar color='#FEC78A' size={10} />
-															<FaStar color='#FEC78A' size={10} />
+														<p>${product.productPrice}</p>
+														<div className='sdProductRatingReviews'>
+															<div className='sdProductRatingStar'>
+																<FaStar color='#FEC78A' size={10} />
+																<FaStar color='#FEC78A' size={10} />
+																<FaStar color='#FEC78A' size={10} />
+																<FaStar color='#FEC78A' size={10} />
+																<FaStar color='#FEC78A' size={10} />
+															</div>
+															<span>{product.productReviews}</span>
 														</div>
-														<span>{product.productReviews}</span>
 													</div>
 												</div>
 											</div>
-										</div>
-									)
-								},)}
+										)
+									},)}
 							</div>
 						</div>
 						<div className='shopDetailsPagination'>
 							<div className='sdPaginationPrev'>
 								<p onClick={scrollToTop}>
 									<FaAngleLeft />
-                  Prev
+									Prev
 								</p>
 							</div>
 							<div className='sdPaginationNumber'>
@@ -196,7 +219,7 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({
 							</div>
 							<div className='sdPaginationNext'>
 								<p onClick={scrollToTop}>
-                  Next
+									Next
 									<FaAngleRight />
 								</p>
 							</div>
@@ -211,8 +234,7 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({
 					<p>Filter By</p>
 					<IoClose onClick={closeDrawer} className='closeButton' size={26} />
 				</div>
-				<div className='drawerContent'>
-				</div>
+				<div className='drawerContent'></div>
 			</div>
 		</>
 	)

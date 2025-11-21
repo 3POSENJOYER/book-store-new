@@ -34,7 +34,7 @@ const StoreData = [
 		author:         'Daniel Ross',
 		genre:          'Self-help',
 		year:           2021,
-		productPrice:   15600,
+		productPrice:   100,
 		count:          20,
 		productReviews: '1.2 milion reviews',
 	},
