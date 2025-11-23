@@ -1,5 +1,4 @@
-import React from 'react'
-import {
+import React, {
 	useState,
 } from 'react'
 import Filter from '../modules/token/components/Shop/Filters/Filter'
@@ -9,13 +8,13 @@ import StoreData from '../modules/token/components/products/data'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface Product {
-  productID: number
-  productName: string
-  produtDescription: string
-  frontImg?: string
-  backImg?: string
-  productPrice: number
-  productReviews: string
+	productID: number
+	productName: string
+	produtDescription: string
+	frontImg?: string
+	backImg?: string
+	productPrice: number
+	productReviews: string
 }
 
 const Shop: React.FC = () => {
@@ -38,7 +37,7 @@ const Shop: React.FC = () => {
 				min={min}
 				max={max}
 			/>
-			<ShopDetails value1 = {value1} filtered={filtered} />
+			<ShopDetails value1={value1} filtered={filtered} />
 		</div>
 	)
 }

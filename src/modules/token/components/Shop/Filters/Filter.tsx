@@ -44,10 +44,17 @@ const Filter: React.FC<FilterProps> = ({
 	useEffect(() => {
 		setValue1([min, max,],)
 	}, [min, max, setValue1,],)
-
+	const [expanded, setExpanded,] = useState<string | false>('author',)
 	const [searchTerm, setSearchTerm,] = useState('',)
 	const [selectedBrands, setSelectedBrands,] = useState<Array<string>>([],)
-
+	const handleChange = (panel: string,) => {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		return (_event: React.SyntheticEvent, isExpanded: boolean,) => {
+			setExpanded(isExpanded ?
+				panel :
+				false,)
+		}
+	}
 	const filteredBrands = StoreData.filter((brand,) => {
 		return brand.productName.toLowerCase().includes(searchTerm.toLowerCase(),)
 	},)
@@ -79,7 +86,12 @@ const Filter: React.FC<FilterProps> = ({
 				<div className='filterColors'></div>
 				<div className='filterSizes'></div>
 				<div className='filterBrands'>
-					<Accordion defaultExpanded disableGutters elevation={0}>
+					<Accordion
+						expanded={expanded === 'author'}
+						onChange={handleChange('author',)}
+						disableGutters
+						elevation={0}
+					>
 						<AccordionSummary
 							expandIcon={<IoIosArrowDown size={20} />}
 							aria-controls='panel1-content'
@@ -99,7 +111,12 @@ const Filter: React.FC<FilterProps> = ({
 							<AuthorFilter setFiltered={setFiltered} />
 						</AccordionDetails>
 					</Accordion>
-					<Accordion defaultExpanded disableGutters elevation={0}>
+					<Accordion
+						expanded={expanded === 'author'}
+						onChange={handleChange('author',)}
+						disableGutters
+						elevation={0}
+					>
 						<AccordionSummary
 							expandIcon={<IoIosArrowDown size={20} />}
 							aria-controls='panel1-content'
