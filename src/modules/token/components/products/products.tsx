@@ -49,16 +49,23 @@ export const Products: React.FC = () => {
 		fetchProducts()
 	}, [],)
 
-	const addToCart = (id: number,): void => {
-		// Знаходимо продукт у завантаженому списку products
-		const productToAdd = products.find((el,) => {
-			return el.productID === id
-		},)
-		if (productToAdd) {
-			setCartData((prev,) => {
-				return [...prev, productToAdd,]
+	const addToCart = async(id: number,): Promise<void> => {
+		try {
+			const res = await fetch('http://localhost:3000/cart', {
+				method:  'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body:    JSON.stringify({
+					productID: id,
+					quantity:  1,
+				},),
 			},)
-			console.log(`Продукт ID ${id} додано до кошика (в локальний стан).`,)
+			if (res.ok) {
+				console.log('Додано в кошик!',)
+			}
+		} catch (err) {
+			console.error(err,)
 		}
 	}
 

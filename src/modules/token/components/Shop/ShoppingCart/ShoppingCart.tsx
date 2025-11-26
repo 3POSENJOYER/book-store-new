@@ -34,19 +34,22 @@ const ShoppingCart: React.FC<ShoppingCartProps> = () => {
 	const [payments, setPayments,] = useState(false,)
 
 	const [cartItems, setCartItems,] = useState<Array<CartItem>>([],)
-	const [totalPrice, ,] = useState(0,)
+	const [totalPrice, setTotalPrice,] = useState(0,)
 	const [orderNumber, ,] = useState('12345',)
 
 	useEffect(() => {
-		const cartItemsUrl: string = 'cartItemsServer'
 		const fetchCartItems = async() => {
 			try {
-				const res = await fetch(cartItemsUrl,)
+				const res = await fetch('http://localhost:3000/cart',)
 				if (!res.ok) {
 					throw new Error(`Response status: ${res.status}`,)
 				}
 				const json = await res.json()
 				setCartItems(json,)
+
+				const total = json.reduce((acc: number, item: CartItem,) => {
+					return acc + (item.productPrice * item.quantity)
+				}, 0,)
 			} catch (error) {
 				console.log(error.message,)
 			}
@@ -62,26 +65,48 @@ const ShoppingCart: React.FC<ShoppingCartProps> = () => {
 		},)
 	}
 
-	const handleQuantityChange = (productID: string, quantity: number,): void => {
+	const handleQuantityChange = async(productID: string, quantity: number,): Promise<void> => {
 		if (quantity < 1) {
 			return
-		}
-		setCartItems((prevItems,) => {
-			return prevItems.map((item,) => {
-				return item.productID === productID ?
-					{
-						...item,
-						quantity,
-					} :
-					item
+		} try {
+			await fetch(`http://localhost:3000/cart/${productID}`, {
+				method:  'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body:    JSON.stringify({
+					quantity,
+				},),
 			},)
-		},)
-	}
 
-	const removeFromCart = (productID: string,) => {
-		return {
-			type:    'REMOVE_FROM_CART',
-			payload: productID,
+			setCartItems((prevItems,) => {
+				return prevItems.map((item,) => {
+					return (item.productID === productID ?
+						{
+							...item, quantity,
+						} :
+						item)
+				},
+				)
+			},
+			)
+		} catch (err) {
+			console.error(err,)
+		}
+	}
+	const removeFromCart = async(productID: string,) => {
+		try {
+			await fetch(`http://localhost:3000/cart/${productID}`, {
+				method: 'DELETE',
+			},)
+
+			setCartItems((prev,) => {
+				return prev.filter((item,) => {
+					return item.productID !== productID
+				},)
+			},)
+		} catch (err) {
+			console.error(err,)
 		}
 	}
 
