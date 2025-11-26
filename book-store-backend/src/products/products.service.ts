@@ -3,7 +3,6 @@
 import { Injectable } from '@nestjs/common';
 import { ProductDto } from './dto/product.dto';
 
-// Це імітація ваших даних (StoreData)
 const INITIAL_STORE_DATA: ProductDto[] = [
   {
     productID: 1,
@@ -23,7 +22,6 @@ const INITIAL_STORE_DATA: ProductDto[] = [
     productPrice: 12.5,
     productReviews: '4.8 stars (95 reviews)',
   },
-  // Додайте більше продуктів, які відповідають вашому StoreData
 ];
 
 @Injectable()

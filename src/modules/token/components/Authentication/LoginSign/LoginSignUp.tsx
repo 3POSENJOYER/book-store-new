@@ -1,10 +1,11 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable indent */
 import React, {
- useState,
+	useState,
 } from 'react'
 import {
- Link,
+	Link,
+	useNavigate,
 } from 'react-router-dom'
 import './LoginSignUp.css'
 
@@ -13,27 +14,33 @@ const LoginSignUp: React.FC = () => {
 	const [email, setEmail,] = useState('',)
 	const [password, setPassword,] = useState('',)
 	const [name, setName,] = useState('',)
+
+	const navigate = useNavigate()
+
 	const handleTab = (tab: string,): void => {
 		setActiveTab(tab,)
 	}
+
 	const HandleSubmit = async(e: React.FormEvent,): Promise<void> => {
 		e.preventDefault()
 
 		const body =
 			activeTab === 'tabButton1' ?
 				JSON.stringify({
-						email,
-						password,
-				  },) :
+					email,
+					password,
+				},) :
 				JSON.stringify({
-						name,
-						email,
-						password,
-				  },)
+					name,
+					email,
+					password,
+				},)
+
 		const url =
 			activeTab === 'tabButton1' ?
 				'http://localhost:3000/api/login' :
 				'http://localhost:3000/api/register'
+
 		try {
 			const res = await fetch(url, {
 				method:  'POST',
@@ -45,10 +52,20 @@ const LoginSignUp: React.FC = () => {
 
 			const data = await res.json()
 			console.log('Response:', data,)
+
+			if (res.ok) {
+				localStorage.setItem('user', JSON.stringify(data.user,),)
+
+				navigate('/shop',)
+			} else {
+				alert(data.message || 'Сталася помилка',)
+			}
 		} catch (err) {
 			console.log('Error:', err,)
+			alert('Не вдалося з\'єднатися з сервером',)
 		}
 	}
+
 	return (
 		<>
 			<div className='loginSignUpSection'>

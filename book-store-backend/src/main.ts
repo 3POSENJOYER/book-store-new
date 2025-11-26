@@ -6,7 +6,7 @@ async function bootstrap() {
 
   // Активація CORS
   app.enableCors({
-    origin: 'http://localhost:3001', // Замініть на порт, де працює ваш фронтенд
+    origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
