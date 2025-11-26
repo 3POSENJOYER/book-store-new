@@ -2,7 +2,7 @@ import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import React, {
-	useState, useEffect,
+	useEffect, useState,
 } from 'react'
 import {
 	BiSearch,
@@ -11,36 +11,53 @@ import {
 	IoIosArrowDown,
 } from 'react-icons/io'
 import StoreData from '../../products/data'
+import AuthorFilter from './authorFilter'
 import './Filter.css'
+import PriceFilter from './priceFilter'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface Product {
-  productID: number
-  productName: string
-  produtDescription: string
-  frontImg?: string
-  backImg?: string
-  productPrice: number
-  productReviews: string
-  count?: number
+	productID: number
+	productName: string
+	produtDescription: string
+	frontImg?: string
+	backImg?: string
+	productPrice: number
+	productReviews: string
+	count?: number
 }
-
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface FilterProps {
-  setFiltered: React.Dispatch<React.SetStateAction<Array<Product>>>;
+	setFiltered: React.Dispatch<React.SetStateAction<Array<Product>>>
+	value1: Array<number>
+	setValue1: React.Dispatch<React.SetStateAction<Array<number>>>
+	min: number
+	max: number
 }
-
 const Filter: React.FC<FilterProps> = ({
 	setFiltered,
+	value1,
+	setValue1,
+	min,
+	max,
 },) => {
-	const [value, setValue,] = useState([20, 69,],)
+	useEffect(() => {
+		setValue1([min, max,],)
+	}, [min, max, setValue1,],)
+	const [expanded, setExpanded,] = useState<string | false>('author',)
 	const [searchTerm, setSearchTerm,] = useState('',)
 	const [selectedBrands, setSelectedBrands,] = useState<Array<string>>([],)
-
+	const handleChange = (panel: string,) => {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		return (_event: React.SyntheticEvent, isExpanded: boolean,) => {
+			setExpanded(isExpanded ?
+				panel :
+				false,)
+		}
+	}
 	const filteredBrands = StoreData.filter((brand,) => {
 		return brand.productName.toLowerCase().includes(searchTerm.toLowerCase(),)
 	},)
-
 	const handleBrandChange = (brandName: string,): void => {
 		setSelectedBrands((prev,) => {
 			const newSelectedBrands = prev.includes(brandName,) ?
@@ -54,8 +71,7 @@ const Filter: React.FC<FilterProps> = ({
 			} else {
 				const filteredProducts = StoreData.filter((product,) => {
 					return newSelectedBrands.includes(product.productName,)
-				},
-				)
+				},)
 				setFiltered(filteredProducts,)
 			}
 
@@ -70,7 +86,12 @@ const Filter: React.FC<FilterProps> = ({
 				<div className='filterColors'></div>
 				<div className='filterSizes'></div>
 				<div className='filterBrands'>
-					<Accordion defaultExpanded disableGutters elevation={0}>
+					<Accordion
+						expanded={expanded === 'author'}
+						onChange={handleChange('author',)}
+						disableGutters
+						elevation={0}
+					>
 						<AccordionSummary
 							expandIcon={<IoIosArrowDown size={20} />}
 							aria-controls='panel1-content'
@@ -80,7 +101,32 @@ const Filter: React.FC<FilterProps> = ({
 								marginBottom: 2,
 							}}
 						>
-							<h5 className='filterHeading'>Brands</h5>
+							<h5 className='filterHeading'>Author</h5>
+						</AccordionSummary>
+						<AccordionDetails
+							sx={{
+								padding: 0,
+							}}
+						>
+							<AuthorFilter setFiltered={setFiltered} />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion
+						expanded={expanded === 'author'}
+						onChange={handleChange('author',)}
+						disableGutters
+						elevation={0}
+					>
+						<AccordionSummary
+							expandIcon={<IoIosArrowDown size={20} />}
+							aria-controls='panel1-content'
+							id='panel1-header'
+							sx={{
+								padding:      0,
+								marginBottom: 2,
+							}}
+						>
+							<h5 className='filterHeading'>Book name</h5>
 						</AccordionSummary>
 						<AccordionDetails
 							sx={{
@@ -119,6 +165,7 @@ const Filter: React.FC<FilterProps> = ({
 													>
 														{brand.productName}
 													</label>
+
 													<span className='brandCount'>{brand.count || 0}</span>
 												</div>
 											)
@@ -149,16 +196,12 @@ const Filter: React.FC<FilterProps> = ({
 								padding: 0,
 							}}
 						>
-							<div className='filterSliderPrice'>
-								<div className='priceRange'>
-									<p>
-                    Min Price: <span>${value[0]}</span>
-									</p>
-									<p>
-                    Max Price: <span>${value[1]}</span>
-									</p>
-								</div>
-							</div>
+							<PriceFilter
+								setValue1={setValue1}
+								value1={value1}
+								min={min}
+								max={max}
+							/>
 						</AccordionDetails>
 					</Accordion>
 				</div>
