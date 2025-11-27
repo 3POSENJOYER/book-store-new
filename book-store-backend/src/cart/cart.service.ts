@@ -1,72 +1,82 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ProductsService } from '../products/products.service'; // Імпорт сервісу продуктів
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { ProductsService } from '../products/products.service';
 import { AddToCartDto } from './dto/add-to-cart.dto';
+import { CartItem, CartDocument } from './schemas/cart.schema';
+import { Product, ProductDocument } from '../products/schemas/product.schema';
 
-interface CartItemStorage {
-  productID: number;
-  quantity: number;
-}
+export type CartItemResponse = Product & { quantity: number };
 
 @Injectable()
 export class CartService {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    @InjectModel(CartItem.name) private cartModel: Model<CartItem>,
+    private readonly productsService: ProductsService,
+  ) {}
 
-  // Тимчасове сховище кошика
-  private cart: CartItemStorage[] = [];
+  async getCart(): Promise<CartItemResponse[]> {
+    const cartItems = await this.cartModel.find().exec();
 
-  // 1. Отримати кошик
-  getCart() {
-    const fullCartItems = this.cart.map((item) => {
-      const productDetails = this.productsService.findOne(item.productID);
+    const fullCartItems = await Promise.all(
+      cartItems.map(
+        async (item: CartDocument): Promise<CartItemResponse | null> => {
+          const productDetails = await this.productsService.findOne(
+            item.productID,
+          );
 
-      if (!productDetails) {
-        return null;
-      }
+          if (!productDetails) {
+            return null;
+          }
 
-      return {
-        ...productDetails,
-        quantity: item.quantity,
-      };
-    });
+          return {
+            ...(productDetails as ProductDocument).toObject(),
+            quantity: item.quantity,
+          };
+        },
+      ),
+    );
 
-    return fullCartItems.filter((item) => item !== null);
+    return fullCartItems.filter(
+      (item): item is CartItemResponse => item !== null,
+    );
   }
 
-  // 2. Додати товар в кошик
-  addToCart(dto: AddToCartDto) {
-    const product = this.productsService.findOne(dto.productID);
+  async addToCart(dto: AddToCartDto) {
+    const product = await this.productsService.findOne(dto.productID);
     if (!product) {
       throw new NotFoundException('Product not found');
     }
 
-    const existingItem = this.cart.find((i) => i.productID === dto.productID);
+    const existingItem = await this.cartModel.findOne({
+      productID: dto.productID,
+    });
 
     if (existingItem) {
       existingItem.quantity += dto.quantity;
+      return existingItem.save();
     } else {
-      this.cart.push({ productID: dto.productID, quantity: dto.quantity });
+      const newItem = new this.cartModel(dto);
+      return newItem.save();
     }
-
-    return { message: 'Item added to cart' };
   }
 
-  // 3. Оновити кількість
-  updateQuantity(productID: number, quantity: number) {
-    const item = this.cart.find((i) => i.productID === productID);
-    if (item) {
-      item.quantity = quantity;
-    }
-    return { message: 'Quantity updated' };
+  async updateQuantity(productID: number, quantity: number) {
+    const updatedItem = await this.cartModel.findOneAndUpdate(
+      { productID },
+      { quantity },
+      { new: true },
+    );
+    return updatedItem;
   }
 
-  // 4. Видалити з кошика
-  removeFromCart(productID: number) {
-    this.cart = this.cart.filter((item) => item.productID !== productID);
+  async removeFromCart(productID: number) {
+    await this.cartModel.deleteOne({ productID });
     return { message: 'Item removed' };
   }
 
-  // 5. Очистити кошик
-  clearCart() {
-    this.cart = [];
+  async clearCart() {
+    await this.cartModel.deleteMany({});
+    return { message: 'Cart cleared' };
   }
 }
