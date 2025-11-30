@@ -17,7 +17,9 @@ import ShopDetails from './components/Shop/ShopDetails/ShopDetails'
 import ResetPass from './components/Authentication/Reset/ResetPass'
 import AddBook from './components/AddBook/addBook'
 import Shop from '../../pages/Shop'
-import Blog from '../token/components/social/blog'
+import Blog from './components/social/blog'
+import About from './components/social/About'
+import Contact from './components/social/contact'
 import {
 	Main,
 } from './main'
@@ -33,7 +35,9 @@ export const App: React.FC = () => {
 					<Route path='/loginSignUp' element={<Authentication />} />
 					<Route path='/resetPassword' element={<ResetPass />} />
 					<Route path='/blog' element={<Blog />} />
+					<Route path='/about' element={<About />} />
 					<Route path='/shop' element={<Shop/>} />
+					<Route path='/contact' element={<Contact />} />
 					<Route path='/cart' element={<Payment />} />
 					<Route path='/AddBook' element={<AddBook />} />
 					<Route path='/product/:id' element={<ProductDeatlis />} />{' '}

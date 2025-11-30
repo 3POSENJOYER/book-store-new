@@ -16,7 +16,7 @@ const Blog: React.FC = () => {
 			<div className='blog-grid'>
 
 				<div className='blog-card'>
-					<img src='/images/blog1.jpg' className='blog-img' alt='Books' />
+					<img src='src/modules/token/components/social/images/blog1.jpg' className='blog-img' alt='Books' />
 					<div className='blog-content'>
 						<h2 className='blog-card-title'>Top 10 Books to Read in 2025</h2>
 						<p className='blog-card-text'>
@@ -27,7 +27,7 @@ const Blog: React.FC = () => {
 				</div>
 
 				<div className='blog-card'>
-					<img src='/images/blog2.jpg' className='blog-img' alt='Library' />
+					<img src='src/modules/token/components/social/images/blog2.jpg' className='blog-img' alt='Library' />
 					<div className='blog-content'>
 						<h2 className='blog-card-title'>How to Build a Powerful Reading Habit</h2>
 						<p className='blog-card-text'>
@@ -38,7 +38,7 @@ const Blog: React.FC = () => {
 				</div>
 
 				<div className='blog-card'>
-					<img src='/images/blog3.jpg' className='blog-img' alt='Author' />
+					<img src='src/modules/token/components/social/images/blog3.jpg' className='blog-img' alt='Author' />
 					<div className='blog-content'>
 						<h2 className='blog-card-title'>
 							Interview with Award-Winning Author Daniel Ross
