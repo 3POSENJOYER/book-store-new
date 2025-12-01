@@ -1,73 +1,39 @@
-# React + TypeScript + Vite
+#  Book Store — Онлайн-магазин книжок
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Book Store** — це вебзастосунок, створений для зручного перегляду, пошуку та купівлі книжок онлайн.  
+Проєкт має на меті надати користувачам сучасну платформу для ознайомлення з асортиментом літератури, оформлення замовлень і керування власним кошиком.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Основна ідея
+Сайт дозволяє користувачам:
+- переглядати каталог книжок за жанрами, авторами та рейтингом;
+- шукати книги за назвою або автором;
+- додавати товари до кошика;
+- оформляти покупку;
+- залишати відгуки та оцінки.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+##  Технології
+- **Frontend:** React + TypeScript + Vite  
+- **Backend:** NestJS  
+- **База даних:** PostgreSQL  
+- **API:** REST API між frontend та backend  
+- **Середовище розробки:** Node.js, npm
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+##  Мета проєкту
+Розробити повнофункціональний інтернет-магазин книжок із сучасним дизайном, структурованою архітектурою та можливістю масштабування.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+##  Команда
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Проєкт розробляється командою студентів
+Вінницький Г.
+Чунаков А.
+Єресько І.
+у рамках навчального курсу.
+Кожен учасник відповідає за певну частину системи — frontend, backend, базу даних або дизайн.
