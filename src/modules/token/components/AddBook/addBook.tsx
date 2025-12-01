@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable no-alert */
 
+import type {
+	ChangeEvent,
+} from 'react'
 import React, {
 	useState,
 } from 'react'
 import './addBook.css'
+
 interface IProduct {
 	productID: number
 	frontImg: string
@@ -32,15 +38,12 @@ const AddBook: React.FC = () => {
 		productReviews:     '',
 	},)
 
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	): void => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,): void => {
 		const {
 			name, value,
 		} = e.target
-
 		const numericFields = ['productID', 'year', 'productPrice', 'count',]
-		setBookInfo((prev,) => {
+		setBookInfo((prev: IProduct,) => {
 			return {
 				...prev,
 				[name]: numericFields.includes(name,) ?
@@ -49,24 +52,57 @@ const AddBook: React.FC = () => {
 			}
 		},)
 	}
-	const handleSubmit = async(e: React.FormEvent,):Promise<void> => {
-		e.preventDefault()
+	// додати handleImageChange для BackImg і зробити фото prewiew
+	const handleImageChange = (e: ChangeEvent<HTMLInputElement>,): void => {
+		const {
+			name, files,
+		} = e.target
+		const file = files?.[0]
+		if (!file?.type.startsWith('image/',)) {
+			alert('Please upload an image',)
+			return
+		}
+		const reader = new FileReader()
+		reader.onload = ():void => {
+			const base64String = reader.result as string
+			setBookInfo((prev,) => {
+				return {
+					...prev,
+					[name]: base64String,
+				}
+			},)
+		}
+		if (file) {
+			reader.readAsDataURL(file,)
+		}
 	}
+
+	const handleSubmit = async(e: React.FormEvent,): Promise<void> => {
+		// додати валідацію стейт на error і loading
+		e.preventDefault()
+		await fetch('/api/upload', {
+			method:  'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(bookInfo,),
+		},)
+	}
+	// покращити css
 	return (
 		<form onSubmit={handleSubmit} className='addBookForm'>
-
 			<label>
-      productID:
+				productID:
 				<input
 					type='number'
 					name='productID'
-					value={bookInfo.productID}
+					value={bookInfo.productID || ''}
 					onChange={handleChange}
 				/>
 			</label>
 
 			<label>
-      productName:
+				productName:
 				<input
 					type='text'
 					name='productName'
@@ -76,27 +112,27 @@ const AddBook: React.FC = () => {
 			</label>
 
 			<label>
-      frontImg:
+				frontImg:
 				<input
-					type='text'
+					type='file'
+					accept='image/*'
 					name='frontImg'
-					value={bookInfo.frontImg}
-					onChange={handleChange}
+					onChange={handleImageChange}
 				/>
 			</label>
 
 			<label>
-      backImg:
+				backImg:
 				<input
-					type='text'
+					type='file'
+					accept='image/*'
 					name='backImg'
-					value={bookInfo.backImg}
-					onChange={handleChange}
+					onChange={handleImageChange}
 				/>
 			</label>
 
 			<label>
-      productDescription:
+				productDescription:
 				<textarea
 					name='productDescription'
 					value={bookInfo.productDescription}
@@ -105,7 +141,7 @@ const AddBook: React.FC = () => {
 			</label>
 
 			<label>
-      author:
+				author:
 				<input
 					type='text'
 					name='author'
@@ -115,7 +151,7 @@ const AddBook: React.FC = () => {
 			</label>
 
 			<label>
-      genre:
+				genre:
 				<input
 					type='text'
 					name='genre'
@@ -125,37 +161,37 @@ const AddBook: React.FC = () => {
 			</label>
 
 			<label>
-      year:
+				year:
 				<input
 					type='number'
 					name='year'
-					value={bookInfo.year}
+					value={bookInfo.year || ''}
 					onChange={handleChange}
 				/>
 			</label>
 
 			<label>
-      productPrice:
+				productPrice:
 				<input
 					type='number'
 					name='productPrice'
-					value={bookInfo.productPrice}
+					value={bookInfo.productPrice || ''}
 					onChange={handleChange}
 				/>
 			</label>
 
 			<label>
-      count:
+				count:
 				<input
 					type='number'
 					name='count'
-					value={bookInfo.count}
+					value={bookInfo.count || ''}
 					onChange={handleChange}
 				/>
 			</label>
 
 			<label>
-      productReviews:
+				productReviews:
 				<textarea
 					name='productReviews'
 					value={bookInfo.productReviews}
@@ -164,7 +200,6 @@ const AddBook: React.FC = () => {
 			</label>
 
 			<button type='submit'>Submit</button>
-
 		</form>
 	)
 }
