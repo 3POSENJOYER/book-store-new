@@ -1,4 +1,7 @@
 import React from 'react'
+import {
+	Link,
+} from 'react-router-dom'
 import './contact.css'
 
 const Contact: React.FC = () => {
@@ -6,10 +9,10 @@ const Contact: React.FC = () => {
 		<div className='contact-container'>
 
 			<div className='contact-breadcrumb'>
-				HOME / <span className='active'>CONTACT</span>
+				<Link to='/'>HOME</Link> / <span className='active'>CONTACT</span>
 			</div>
 
-			<h1 className='contact-title'>Contact Us</h1>
+			<h1 className='contact-title'>CONTACT US</h1>
 			<p className='contact-subtitle'>
 				We’re here to help. Reach out with any questions.
 			</p>
@@ -40,6 +43,7 @@ const Contact: React.FC = () => {
 					<div className='contact-map'>
 						<iframe
 							title='map'
+							loading='lazy'
 							src='https://maps.google.com/maps?q=New%20York&t=&z=13&ie=UTF8&iwloc=&output=embed'
 						></iframe>
 					</div>

@@ -1,4 +1,7 @@
 import React from 'react'
+import {
+	Link,
+} from 'react-router-dom'
 import './about.css'
 
 const About: React.FC = () => {
@@ -6,15 +9,16 @@ const About: React.FC = () => {
 		<div className='about-container'>
 
 			<div className='about-breadcrumb'>
-				HOME / <span className='active'>ABOUT</span>
+				<Link to='/'>HOME</Link> / <span className='active'>ABOUT</span>
 			</div>
 
-			<h1 className='about-title'>About Us</h1>
+			<h1 className='about-title'>ABOUT US</h1>
 			<p className='about-subtitle'>
 				Your destination for books, inspiration and knowledge.
 			</p>
 
 			<div className='about-content'>
+
 				<div className='about-text'>
 					<h2>Who We Are</h2>
 					<p>
@@ -26,8 +30,8 @@ const About: React.FC = () => {
 					<h2>Our Mission</h2>
 					<p>
 						To create a space where readers can explore, discover and fall in love with
-						new stories. Whether you’re searching for the latest bestseller or a timeless
-						classic—our collection has something for every book lover.
+						new stories. Whether you're searching for the latest bestseller or a timeless
+						classic — our collection has something for every book lover.
 					</p>
 
 					<h2>Why Choose Us</h2>
@@ -46,6 +50,7 @@ const About: React.FC = () => {
 						alt='About The Book Haven'
 					/>
 				</div>
+
 			</div>
 
 		</div>

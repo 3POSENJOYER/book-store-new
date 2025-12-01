@@ -1,11 +1,15 @@
 import React from 'react'
+import {
+	Link,
+} from 'react-router-dom'
 import './blog.css'
 
 const Blog: React.FC = () => {
 	return (
 		<div className='blog-container'>
+
 			<div className='blog-breadcrumb'>
-				HOME / <span className='active'>BLOG</span>
+				<Link to='/'>HOME</Link> / <span className='active'>BLOG</span>
 			</div>
 
 			<h1 className='blog-title'>OUR BLOG</h1>

@@ -38,11 +38,20 @@ const AddBook: React.FC = () => {
 		productReviews:     '',
 	},)
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,): void => {
+	// NEW: error + loading
+	const [error, setError,] = useState<string>('',)
+	const [loading, setLoading,] = useState<boolean>(false,)
+
+	// handleChange — оновлює текстові та числові поля
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+	): void => {
 		const {
 			name, value,
 		} = e.target
+
 		const numericFields = ['productID', 'year', 'productPrice', 'count',]
+
 		setBookInfo((prev: IProduct,) => {
 			return {
 				...prev,
@@ -52,18 +61,22 @@ const AddBook: React.FC = () => {
 			}
 		},)
 	}
-	// додати handleImageChange для BackImg і зробити фото prewiew
+
+	// handleImageChange — завантаження зображення + preview (frontImg + backImg)
 	const handleImageChange = (e: ChangeEvent<HTMLInputElement>,): void => {
 		const {
 			name, files,
 		} = e.target
 		const file = files?.[0]
+
 		if (!file?.type.startsWith('image/',)) {
 			alert('Please upload an image',)
 			return
 		}
+
 		const reader = new FileReader()
-		reader.onload = ():void => {
+
+		reader.onload = (): void => {
 			const base64String = reader.result as string
 			setBookInfo((prev,) => {
 				return {
@@ -72,25 +85,90 @@ const AddBook: React.FC = () => {
 				}
 			},)
 		}
-		if (file) {
-			reader.readAsDataURL(file,)
+
+		reader.readAsDataURL(file,)
+	}
+
+	// UPDATED VALIDATION — тепер перевіряє всі поля правильно
+	const validate = (): string | null => {
+		// текстові поля
+		if (!bookInfo.productName.trim()) {
+			return 'Product name is required'
+		}
+		if (!bookInfo.author.trim()) {
+			return 'Author is required'
+		}
+		if (!bookInfo.genre.trim()) {
+			return 'Genre is required'
+		}
+		if (!bookInfo.productDescription.trim()) {
+			return 'Description is required'
+		}
+
+		// числові поля
+		if (!bookInfo.productID || isNaN(bookInfo.productID,) || bookInfo.productID <= 0) {
+			return 'Product ID must be a valid number'
+		}
+
+		if (!bookInfo.year || isNaN(bookInfo.year,) || bookInfo.year <= 0) {
+			return 'Year must be a valid number'
+		}
+
+		if (!bookInfo.productPrice || isNaN(bookInfo.productPrice,) || bookInfo.productPrice <= 0) {
+			return 'Price must be a valid number'
+		}
+
+		if (!bookInfo.count || isNaN(bookInfo.count,) || bookInfo.count <= 0) {
+			return 'Count must be a valid number'
+		}
+
+		// картинки
+		if (!bookInfo.frontImg) {
+			return 'Front image is required'
+		}
+		if (!bookInfo.backImg) {
+			return 'Back image is required'
+		}
+
+		return null
+	}
+
+	// handleSubmit — відправка + loading + error state
+	const handleSubmit = async(e: React.FormEvent,): Promise<void> => {
+		e.preventDefault()
+
+		setError('',)
+		setLoading(true,)
+
+		const validationError = validate()
+		if (validationError) {
+			setError(validationError,)
+			setLoading(false,)
+			return
+		}
+
+		try {
+			await fetch('/api/upload', {
+				method:  'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body:    JSON.stringify(bookInfo,),
+			},)
+		} catch {
+			setError('Upload failed',)
+		} finally {
+			setLoading(false,)
 		}
 	}
 
-	const handleSubmit = async(e: React.FormEvent,): Promise<void> => {
-		// додати валідацію стейт на error і loading
-		e.preventDefault()
-		await fetch('/api/upload', {
-			method:  'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(bookInfo,),
-		},)
-	}
-	// покращити css
 	return (
 		<form onSubmit={handleSubmit} className='addBookForm'>
+			{/* error message */}
+			{error && <p className='error'>{error}</p>}
+			{/* loading indicator */}
+			{loading && <p className='loading'>Uploading...</p>}
+
 			<label>
 				productID:
 				<input
@@ -119,6 +197,9 @@ const AddBook: React.FC = () => {
 					name='frontImg'
 					onChange={handleImageChange}
 				/>
+				{bookInfo.frontImg && (
+					<img className='preview' src={bookInfo.frontImg} alt='front preview' />
+				)}
 			</label>
 
 			<label>
@@ -129,6 +210,9 @@ const AddBook: React.FC = () => {
 					name='backImg'
 					onChange={handleImageChange}
 				/>
+				{bookInfo.backImg && (
+					<img className='preview' src={bookInfo.backImg} alt='back preview' />
+				)}
 			</label>
 
 			<label>
@@ -199,7 +283,11 @@ const AddBook: React.FC = () => {
 				/>
 			</label>
 
-			<button type='submit'>Submit</button>
+			<button type='submit' disabled={loading}>
+				{loading ?
+					'Submitting...' :
+					'Submit'}
+			</button>
 		</form>
 	)
 }
