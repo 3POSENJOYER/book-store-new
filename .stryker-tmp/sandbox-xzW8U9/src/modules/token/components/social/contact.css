@@ -1,0 +1,205 @@
+/* ============================= */
+/* CONTACT PAGE – PREMIUM STYLE */
+/* ============================= */
+
+.contact-container {
+  padding: 60px 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background-color: #fff;
+}
+
+/* Breadcrumb */
+.contact-breadcrumb {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #777;
+}
+
+.contact-breadcrumb .active {
+  color: #000;
+  font-weight: 600;
+}
+
+/* Title */
+.contact-title {
+  font-size: 42px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.contact-subtitle {
+  font-size: 16px;
+  color: #666;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ============================= */
+/* GRID LAYOUT */
+/* ============================= */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 60px;
+}
+
+/* ============================= */
+/* CONTACT FORM CONTAINER */
+/* ============================= */
+
+.contact-box {
+  border: 1px solid #000;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.contact-box h2 {
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.contact-box p {
+  font-size: 15px;
+  color: #595858;
+  line-height: 1.7;
+}
+
+/* ============================= */
+/* FORM */
+/* ============================= */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  border: 2px solid #e4e4e4;
+  padding: 14px 18px;
+  font-size: 14px;
+  outline-color: black;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #000;
+}
+
+/* Submit Button */
+.contact-form button {
+  background-color: #000;
+  color: #fff;
+
+  padding: 16px 22px;
+  width: 100%;
+
+  border: 1px solid #000;
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.18s ease,
+    box-shadow 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: #fff;
+  color: #000;
+  transform: translateY(-3px);
+  box-shadow: 0px 8px 18px rgba(0,0,0,0.15);
+}
+
+.contact-form button:active {
+  transform: translateY(0px);
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ============================= */
+/* CONTACT INFO */
+/* ============================= */
+
+.contact-info {
+  border: 1px solid #000;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-info h2 {
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.contact-info p {
+  font-size: 15px;
+  color: #595858;
+}
+
+/* Map */
+.contact-map {
+  width: 100%;
+  height: 300px;
+  border: 2px solid #e4e4e4;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.contact-map iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media screen and (max-width: 1200px) {
+  .contact-container {
+    padding: 50px 80px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-map {
+    height: 260px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .contact-container {
+    padding: 40px 25px;
+  }
+
+  .contact-title {
+    font-size: 34px;
+  }
+
+  .contact-map {
+    height: 220px;
+  }
+}

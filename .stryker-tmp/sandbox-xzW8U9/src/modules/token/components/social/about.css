@@ -1,0 +1,137 @@
+/* ============================ */
+/* ABOUT PAGE – PREMIUM STYLE   */
+/* ============================ */
+
+.about-container {
+  padding: 60px 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background-color: #fff;
+}
+
+/* breadcrumb */
+.about-breadcrumb {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #777;
+}
+
+.about-breadcrumb .active {
+  color: #000;
+  font-weight: 600;
+}
+
+/* Heading */
+.about-title {
+  font-size: 42px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.about-subtitle {
+  font-size: 16px;
+  color: #666;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ============================ */
+/* CONTENT BLOCK */
+/* ============================ */
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 60px;
+  margin-top: 20px;
+}
+
+/* Text section */
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.about-text h2 {
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.about-text p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #595858;
+}
+
+.about-text ul {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about-text ul li {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* ============================ */
+/* IMAGE */
+/* ============================ */
+
+.about-image-wrapper {
+  border: 1px solid #000;
+  overflow: hidden;
+  display: flex;
+}
+
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.about-image-wrapper:hover .about-image {
+  transform: scale(1.05);
+}
+
+/* ============================ */
+/* RESPONSIVE */
+/* ============================ */
+
+@media screen and (max-width: 1200px) {
+  .about-container {
+    padding: 50px 80px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-image-wrapper {
+    height: 400px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .about-container {
+    padding: 40px 25px;
+  }
+
+  .about-title {
+    font-size: 34px;
+  }
+
+  .about-image-wrapper {
+    height: 320px;
+  }
+}
