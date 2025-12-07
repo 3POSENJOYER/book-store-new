@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
 				<div className='logoLinkContainer'>
 					<div className='logoContainer'>
 						<Link to='/' onClick={scrollToTop}>
-							<img src={logo} alt='logo'/>
+							<img src={logo} alt='logo' />
 						</Link>
 					</div>
 					<div className='linkContainer'>
@@ -78,7 +78,10 @@ export const Header: React.FC = () => {
 							<RiShoppingBagLine size={22} />
 						</Badge>
 					</Link>
-					<FiHeart size={22} onClick={scrollToTop} />
+					<Link to='/favorites'>
+						<FiHeart size={22} onClick={scrollToTop} />
+					</Link>
+
 				</div>
 			</nav>
 		</>

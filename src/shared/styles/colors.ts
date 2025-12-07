@@ -4,8 +4,8 @@ export const colors = {
 	gray:       '#464646',
 	baseBlack:  '#000000',
 	darkYellow: '#C9B30C',
-	black:      '#000000',
-	white:      '#ffffff',
+	white:      '#000000',
+	black:      '#ffffff',
 	radialGradient:
     'radial-gradient(circle, rgba(0, 255, 100, 0.1) 0%, transparent 70%)',
 	IradialGradient:

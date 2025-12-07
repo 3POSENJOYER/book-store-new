@@ -42,7 +42,48 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({
 	const [isLoading, setIsLoading,] = useState(false,)
 	const [isDrawerOpen, setIsDrawerOpen,] = useState(false,)
 	const [selectSort, setSelectSort,] = useState('default',)
+	const [heartedIds, setHeartedIds,] = useState<Set<number>>(new Set(),)
 	const [products, setProducts,] = useState<Array<Product>>(filtered,)
+	const handleHeartActive = (id: number,): void => {
+		setHeartedIds((prev,) => {
+			const newSet = new Set(prev,)
+			if (newSet.has(id,)) {
+				newSet.delete(id,)
+			} else {
+				newSet.add(id,)
+			}
+			return newSet
+		},)
+	}
+	useEffect(() => {
+		// Don't run on initial render if heartedIds is empty
+		if (heartedIds.size === 0) {
+			return
+		} const addToFavorites = async():Promise<void> => {
+			try {
+				const res = await fetch('http://localhost:8000/favorites', {
+					method:  'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						favoriteProductIds: Array.from(heartedIds,),
+					},),
+				},)
+
+				if (!res.ok) {
+					throw new Error('Failed to save favorites',)
+				}
+
+				const data = await res.json()
+				console.log('Favorites saved:', data,)
+			} catch (err) {
+				console.error('Error saving favorites:', err,)
+			}
+		}
+		addToFavorites()
+	}, [heartedIds,],)
+
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			setIsLoading(true,)
@@ -147,59 +188,82 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({
 						<div className='shopDetailsProducts'>
 							<div className='shopDetailsProductsContainer'>
 								{isLoading ?
-									<div>loading </div> :
-									products.slice(0, 12,).map((product: Product,) => {
-										return (
-											<div key={product.productID} className='sdProductContainer'>
-												<div className='sdProductImages'>
-													<Link
-														to={`/product/${product.productID}`}
-														onClick={scrollToTop}
-													>
-														<img
-															src={product.frontImg}
-															alt=''
-															className='sdProduct_front'
-														/>
-														<img
-															src={product.backImg}
-															alt=''
-															className='sdProduct_back'
-														/>
-													</Link>
-													<h4>Add to Cart</h4>
-												</div>
-												<div className='sdProductImagesCart'>
-													<FaCartPlus />
-												</div>
-												<div className='sdProductInfo'>
-													<div className='sdProductCategoryWishlist'>
-														<FiHeart />
-													</div>
-													<div className='sdProductNameInfo'>
+									(
+										<div>loading </div>
+									) :
+									(
+										products.slice(0, 12,).map((product: Product,) => {
+											return (
+												<div
+													key={product.productID}
+													className='sdProductContainer'
+												>
+													<div className='sdProductImages'>
 														<Link
 															to={`/product/${product.productID}`}
 															onClick={scrollToTop}
 														>
-															<h5>{product.productName}</h5>
+															<img
+																src={product.frontImg}
+																alt=''
+																className='sdProduct_front'
+															/>
+															<img
+																src={product.backImg}
+																alt=''
+																className='sdProduct_back'
+															/>
 														</Link>
+														<h4>Add to Cart</h4>
+													</div>
+													<div className='sdProductImagesCart'>
+														<FaCartPlus />
+													</div>
+													<div className='sdProductInfo'>
+														<div className='sdProductCategoryWishlist'>
+															<FiHeart
+																size={24}
+																color={
+																	heartedIds.has(product.productID,) ?
+																		'#ef4444' :
+																		'#ecedeeff'
+																}
+																fill='transparent'
+																strokeWidth={2}
+																style={{
+																	cursor:     'pointer',
+																	transition: 'all 0.2s',
+																}}
+																onClick={(): void => {
+																	handleHeartActive(product.productID,)
+																}}
+															/>
+														</div>
+														<div className='sdProductNameInfo'>
+															<Link
+																to={`/product/${product.productID}`}
+																onClick={scrollToTop}
+															>
+																<h5>{product.productName}</h5>
+															</Link>
 
-														<p>${product.productPrice}</p>
-														<div className='sdProductRatingReviews'>
-															<div className='sdProductRatingStar'>
-																<FaStar color='#FEC78A' size={10} />
-																<FaStar color='#FEC78A' size={10} />
-																<FaStar color='#FEC78A' size={10} />
-																<FaStar color='#FEC78A' size={10} />
-																<FaStar color='#FEC78A' size={10} />
+															<p>${product.productPrice}</p>
+															<div className='sdProductRatingReviews'>
+																<div className='sdProductRatingStar'>
+																	<FaStar color='#FEC78A' size={10} />
+																	<FaStar color='#FEC78A' size={10} />
+																	<FaStar color='#FEC78A' size={10} />
+																	<FaStar color='#FEC78A' size={10} />
+																	<FaStar color='#FEC78A' size={10} />
+																</div>
+																<span>{product.productReviews}</span>
 															</div>
-															<span>{product.productReviews}</span>
 														</div>
 													</div>
 												</div>
-											</div>
-										)
-									},)}
+											)
+										},)
+									)}
 							</div>
 						</div>
 						<div className='shopDetailsPagination'>

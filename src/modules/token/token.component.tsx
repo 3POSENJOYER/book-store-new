@@ -12,6 +12,7 @@ import {
 	Products,
 } from './components/products/products'
 import Authentication from '../../pages/Authentication'
+import Favorites from './components/Shop/Favorites/favorites'
 import Payment from '../../pages/Payment'
 import ShopDetails from './components/Shop/ShopDetails/ShopDetails'
 import ResetPass from './components/Authentication/Reset/ResetPass'
@@ -20,9 +21,6 @@ import Shop from '../../pages/Shop'
 import Blog from './components/social/blog'
 import About from './components/social/about'
 import Contact from './components/social/contact'
-import {
-	Main,
-} from './main'
 
 export const App: React.FC = () => {
 	return (
@@ -30,10 +28,10 @@ export const App: React.FC = () => {
 			<BrowserRouter>
 				<Header />
 				<Routes>
-					<Route path='/' element={<Main />} />
-					<Route path='/products' element={<Products />} />
+					<Route path='/' element={<Products />} />
 					<Route path='/loginSignUp' element={<Authentication />} />
 					<Route path='/resetPassword' element={<ResetPass />} />
+					<Route path='/favorites' element={<Favorites />} />
 					<Route path='/blog' element={<Blog />} />
 					<Route path='/about' element={<About />} />
 					<Route path='/shop' element={<Shop />} />
