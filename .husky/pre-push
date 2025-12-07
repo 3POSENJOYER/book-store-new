@@ -17,7 +17,6 @@ fi
 
 # 3. Перевірка збірки Бекенду
 echo "🏗️ Building Backend..."
-# Заходимо в папку бекенду, білдимо і виходимо назад
 cd book-store-backend && npm run build
 if [ $? -ne 0 ]; then
  echo "❌ Backend build failed!"
