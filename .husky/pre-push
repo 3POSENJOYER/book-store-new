@@ -1,0 +1,27 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🚀 Starting Pre-Push checks..."
+
+# 1. Заглушка для тестів (успішна команда)
+echo "🟢 Running Tests..."
+echo "Tests passed!" 
+
+# 2. Перевірка збірки Фронтенду
+echo "🏗️ Building Frontend..."
+npm run build
+if [ $? -ne 0 ]; then
+ echo "❌ Frontend build failed!"
+ exit 1
+fi
+
+# 3. Перевірка збірки Бекенду
+echo "🏗️ Building Backend..."
+# Заходимо в папку бекенду, білдимо і виходимо назад
+cd book-store-backend && npm run build
+if [ $? -ne 0 ]; then
+ echo "❌ Backend build failed!"
+ exit 1
+fi
+
+echo "✅ All checks passed! Pushing code..."

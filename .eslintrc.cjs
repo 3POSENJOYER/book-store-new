@@ -12,8 +12,9 @@ module.exports = {
 			jsx:           true,
 			impliedStrict: true,
 		},
-		project:         './tsconfig.json',
-		tsconfigRootDir: __dirname,
+		project:             './tsconfig.json',
+		tsconfigRootDir:     __dirname,
+		extraFileExtensions: ['.json',],
 	},
 	plugins: [
 		'@typescript-eslint/eslint-plugin',

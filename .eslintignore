@@ -1,3 +1,4 @@
 **/*.js
 **/*.d.ts
 book-store-backend/
+package.json
