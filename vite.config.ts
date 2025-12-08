@@ -12,7 +12,7 @@ export default ({ mode }: { mode: string }): UserConfig => {
 		...loadEnv(mode, process.cwd()),
 	}
 	return defineConfig({
-		base: './',
+		base: '/book-store-new/',
 		server: {
 			host: '0.0.0.0',
 			port: parseInt(process.env['VITE_PORT'] ?? '3001'),
