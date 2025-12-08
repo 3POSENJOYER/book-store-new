@@ -17,7 +17,7 @@ import Contact from './components/social/contact'
 export const App: React.FC = () => {
 	return (
 		<div>
-			<BrowserRouter>
+			<BrowserRouter basename='/book-store-new'>
 				<Header />
 				<Routes>
 					<Route path='/' element={<Products />} />
