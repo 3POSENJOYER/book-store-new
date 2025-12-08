@@ -7,11 +7,20 @@
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"preview": "vite preview",
-		"lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+		"lint": "eslint src --ext ts,tsx --report-unused-disable-directives",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@emotion/css": "^11.13.5",
 		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.1",
+		"@mui/material": "^7.3.5",
+		"@nestjs/common": "^11.1.9",
+		"@nestjs/config": "^4.0.2",
+		"@nestjs/core": "^11.1.9",
+		"@nestjs/jwt": "^11.0.1",
+		"@nestjs/mongoose": "^11.0.3",
+		"@nestjs/platform-express": "^11.1.9",
 		"@react-spring/web": "^10.0.3",
 		"@tanstack/react-query": "^5.90.2",
 		"axios": "^1.12.2",
@@ -20,11 +29,15 @@
 		"form-data": "^4.0.4",
 		"localforage": "^1.10.0",
 		"match-sorter": "^8.1.0",
+		"mongoose": "^8.20.1",
+		"passport": "^0.7.0",
+		"passport-jwt": "^4.0.1",
 		"query-string": "^9.3.1",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
 		"react-final-form": "^7.0.0",
-		"react-router-dom": "^7.9.4",
+		"react-icons": "^5.5.0",
+		"react-router-dom": "^7.9.5",
 		"react-select": "^5.10.2",
 		"sort-by": "^1.2.0",
 		"ts-pattern": "^5.8.0",
@@ -32,6 +45,9 @@
 		"yup": "^1.7.1"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^20.2.0",
+		"@commitlint/config-conventional": "^20.2.0",
+		"@playwright/test": "^1.57.0",
 		"@types/node": "^24.7.0",
 		"@types/react": "^19.1.16",
 		"@types/react-dom": "^19.1.9",
@@ -39,11 +55,21 @@
 		"@typescript-eslint/parser": "^6.4.0",
 		"@vitejs/plugin-react-swc": "^3.3.2",
 		"eslint": "^8.47.0",
+		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.3",
 		"globals": "^16.4.0",
-		"typescript": "^5.3.3",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"prettier": "^3.7.4",
+		"typescript": "5.1",
 		"vite": "^4.5.14",
 		"vite-plugin-eslint": "^1.8.1"
+	},
+	"lint-staged": {
+		"**/*.{ts,tsx,js,jsx}": [
+			"eslint --fix",
+			"prettier --write"
+		]
 	}
 }

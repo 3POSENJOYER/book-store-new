@@ -1,10 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import {
-	injectGlobal,
-} from '@emotion/css'
-import {
-	colors,
-} from './colors'
+import { injectGlobal } from '@emotion/css'
+import { colors } from './colors'
 
 injectGlobal`
 	:root{
