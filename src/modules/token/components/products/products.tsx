@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import './products.css'
 
 // Базовий URL для NestJS API
-const API_BASE_URL = 'http://localhost:3000'
+const API_BASE_URL = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface Product {
