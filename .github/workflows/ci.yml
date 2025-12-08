@@ -1,0 +1,67 @@
+name: CI Check
+
+on:
+  pull_request:
+    branches: [ "develop", "main" ]
+  push:
+    branches: [ "develop", "main" ]
+
+jobs:
+  quality-check:
+    name: 🔍 Quality & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      # 1. Перевірка стилю (Prettier)
+      - name: 🎨 Check Code Style
+        run: npx prettier --check .
+
+      # 2. Перевірка помилок (ESLint)
+      - name: 🚨 Lint Code
+        run: npm run lint
+
+      # 3. Тести (Заглушка)
+      - name: 🧪 Run Tests
+        run: echo "Skipping tests for now"
+
+      # 4. Білд Фронтенду
+      - name: 🏗️ Build Frontend
+        run: npm run build
+
+      # 5. Білд Бекенду
+      - name: 🏗️ Build Backend
+        run: |
+          cd book-store-backend
+          npm install
+          npm run build
+
+  commit-lint:
+    name: 📝 Commit Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install Commitlint
+        run: npm install --save-dev @commitlint/config-conventional @commitlint/cli
+      - name: Validate current commit
+        if: github.event_name == 'push'
+        run: npx commitlint --from HEAD~1 --to HEAD --verbose
+      - name: Validate PR commits
+        if: github.event_name == 'pull_request'
+        run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
