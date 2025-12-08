@@ -29,7 +29,7 @@ export const Products: React.FC = () => {
 		const fetchProducts = async (): Promise<void> => {
 			try {
 				// Використовуємо GET-маршрут для отримання каталогу
-				const res = await fetch(`${API_BASE_URL}/products`)
+				const res = await fetch(`${API_BASE_URL}/api/products`)
 
 				if (!res.ok) {
 					throw new Error(`Failed to fetch products: ${res.status}`)
@@ -45,8 +45,10 @@ export const Products: React.FC = () => {
 	}, [])
 
 	const addToCart = async (id: number): Promise<void> => {
+		const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
+
 		try {
-			const res = await fetch('http://localhost:3000/cart', {
+			const res = await fetch(`${apiUrl}/api/cart`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -73,7 +75,7 @@ export const Products: React.FC = () => {
 		const postCartData = async (): Promise<void> => {
 			try {
 				// Повний URL до NestJS (POST /storeDataServer)
-				const res = await fetch(`${API_BASE_URL}/storeDataServer`, {
+				const res = await fetch(`${API_BASE_URL}/api/storeDataServer`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json; charset=UTF-8',

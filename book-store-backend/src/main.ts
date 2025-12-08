@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Активація CORS
   app.enableCors({
-    origin: ['http://localhost:5173', 'https://3POSENJOYER.github.io'],
+    origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

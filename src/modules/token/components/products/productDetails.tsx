@@ -37,7 +37,7 @@ export const ProductDeatlis: React.FC = () => {
 			setLoading(true)
 			try {
 				// Використовуємо GET /products/:id маршрут на NestJS
-				const res = await fetch(`${API_BASE_URL}/products/${id}`)
+				const res = await fetch(`${API_BASE_URL}/api/products/${id}`)
 
 				if (res.status === 404) {
 					setDetail(null)
