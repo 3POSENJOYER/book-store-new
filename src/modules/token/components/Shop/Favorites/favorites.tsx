@@ -14,7 +14,7 @@ const Favorites: React.FC = () => {
 	const [favorites, setFavorites] = useState<Array<IProduct>>([])
 	const [error, setError] = useState<string | null>(null)
 
-	const API_BASE_URL = 'http://localhost:3000'
+	const API_BASE_URL = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
 	useEffect(() => {
 		const fetchFavorites = async (): Promise<void> => {

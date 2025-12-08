@@ -5,11 +5,14 @@ import './ResetPass.css'
 const ResetPass: React.FC = () => {
 	const [email, setEmail] = useState('')
 	const [response, setResponse] = useState('')
+
+	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
+
 	const HandleSubmit = async (e: React.FormEvent): Promise<void> => {
 		e.preventDefault()
 
 		try {
-			const res = await fetch('/http://localhost:3000/api/reset', {
+			const res = await fetch(`${apiUrl}/api/reset`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json; charset=UTF-8',

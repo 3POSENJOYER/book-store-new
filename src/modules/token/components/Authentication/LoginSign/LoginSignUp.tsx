@@ -1,3 +1,5 @@
+/* eslint-disable max-depth */
+/* eslint-disable complexity */
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './LoginSignUp.css'
@@ -8,6 +10,8 @@ const LoginSignUp: React.FC = () => {
 	const [password, setPassword] = useState('')
 	const [name, setName] = useState('')
 	const navigate = useNavigate()
+
+	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
 	const handleTab = (tab: string): void => {
 		setActiveTab(tab)
@@ -28,7 +32,8 @@ const LoginSignUp: React.FC = () => {
 						password,
 					})
 
-		const url = activeTab === 'tabButton1' ? 'http://localhost:3000/api/login' : 'http://localhost:3000/api/register'
+		const url = activeTab === 'tabButton1' ? `${apiUrl}/api/auth/login` : `${apiUrl}/api/auth/register`
+
 		try {
 			const res = await fetch(url, {
 				method: 'POST',
@@ -43,6 +48,9 @@ const LoginSignUp: React.FC = () => {
 
 			if (res.ok) {
 				localStorage.setItem('user', JSON.stringify(data.user))
+				if (data.token) {
+					localStorage.setItem('token', data.token)
+				}
 				navigate('/shop')
 			} else {
 				alert(data.message || 'Сталася помилка')

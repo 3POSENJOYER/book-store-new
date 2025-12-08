@@ -8,10 +8,13 @@ const Dashboard: React.FC = () => {
 	const [user, setUser] = useState<IUser | null>(null)
 
 	const token = localStorage.getItem('token')
+
+	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
+
 	useEffect(() => {
 		const fetchUser = async (): Promise<void> => {
 			try {
-				const res = await fetch('http://localhost:5000/api/user/me', {
+				const res = await fetch(`${apiUrl}/api/user/me`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
@@ -28,7 +31,8 @@ const Dashboard: React.FC = () => {
 		if (token) {
 			fetchUser()
 		}
-	}, [token])
+	}, [token, apiUrl])
+
 	return <div className='dashboard'>{user?.name ? <div className='user'>{user.name}</div> : <p>not found</p>}</div>
 }
 

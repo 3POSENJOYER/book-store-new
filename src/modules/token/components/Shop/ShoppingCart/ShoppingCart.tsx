@@ -29,10 +29,13 @@ const ShoppingCart: React.FC<ShoppingCartProps> = () => {
 	const [cartItems, setCartItems] = useState<Array<CartItem>>([])
 	const [totalPrice, setTotalPrice] = useState(0)
 	const [orderNumber, ,] = useState('12345')
+
+	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
+
 	useEffect(() => {
 		const fetchCartItems = async () => {
 			try {
-				const res = await fetch('http://localhost:3000/cart')
+				const res = await fetch(`${apiUrl}/api/cart`)
 				if (!res.ok) {
 					throw new Error(`Response status: ${res.status}`)
 				}
@@ -42,12 +45,14 @@ const ShoppingCart: React.FC<ShoppingCartProps> = () => {
 				const total = json.reduce((acc: number, item: CartItem) => {
 					return acc + item.productPrice * item.quantity
 				}, 0)
+				setTotalPrice(total)
 			} catch (error) {
 				console.log(error.message)
 			}
 		}
 		fetchCartItems()
-	}, [])
+	}, [apiUrl])
+
 	const currentDate = new Date()
 
 	const scrollToTop = (): void => {
@@ -61,7 +66,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = () => {
 			return
 		}
 		try {
-			await fetch(`http://localhost:3000/cart/${productID}`, {
+			await fetch(`${apiUrl}/api/cart/${productID}`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -87,7 +92,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = () => {
 	}
 	const removeFromCart = async (productID: string) => {
 		try {
-			await fetch(`http://localhost:3000/cart/${productID}`, {
+			await fetch(`${apiUrl}/api/cart/${productID}`, {
 				method: 'DELETE',
 			})
 

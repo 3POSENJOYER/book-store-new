@@ -30,6 +30,9 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 	const [selectSort, setSelectSort] = useState('default')
 	const [heartedIds, setHeartedIds] = useState<Set<number>>(new Set())
 	const [products, setProducts] = useState<Array<Product>>(filtered)
+
+	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
+
 	const handleHeartActive = (id: number): void => {
 		setHeartedIds((prev) => {
 			const newSet = new Set(prev)
@@ -42,13 +45,12 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 		})
 	}
 	useEffect(() => {
-		// Don't run on initial render if heartedIds is empty
 		if (heartedIds.size === 0) {
 			return
 		}
 		const addToFavorites = async (): Promise<void> => {
 			try {
-				const res = await fetch('http://localhost:8000/favorites', {
+				const res = await fetch(`${apiUrl}/api/favorites`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -69,7 +71,7 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 			}
 		}
 		addToFavorites()
-	}, [heartedIds])
+	}, [heartedIds, apiUrl])
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			setIsLoading(true)
