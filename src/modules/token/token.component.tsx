@@ -1,16 +1,8 @@
 import React from 'react'
-import {
-	BrowserRouter, Route, Routes,
-} from 'react-router-dom'
-import {
-	Header,
-} from './components/header.component'
-import {
-	ProductDeatlis,
-} from './components/products/productDetails'
-import {
-	Products,
-} from './components/products/products'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Header } from './components/header.component'
+import { ProductDeatlis } from './components/products/productDetails'
+import { Products } from './components/products/products'
 import Authentication from '../../pages/Authentication'
 import Favorites from './components/Shop/Favorites/favorites'
 import Payment from '../../pages/Payment'

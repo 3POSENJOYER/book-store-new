@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import { injectGlobal } from "@emotion/css";
-import { orbitronRegular } from "./fonts";
+import { injectGlobal } from '@emotion/css'
+import { orbitronRegular } from './fonts'
 
 injectGlobal`
 	html, body {
@@ -78,4 +78,4 @@ injectGlobal`
 	[data-theme="light"] .bp5-drawer-header > button > svg > path {
 		fill: var(--gray-600);
 	} */
-`;
+`

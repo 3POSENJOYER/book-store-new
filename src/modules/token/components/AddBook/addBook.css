@@ -3,17 +3,17 @@
 /* ============================= */
 
 .addBookForm {
-  width: 100%;
-  max-width: 780px;
-  margin: 60px auto;
-  padding: 50px 60px;
+	width: 100%;
+	max-width: 780px;
+	margin: 60px auto;
+	padding: 50px 60px;
 
-  border: 1px solid #000;
-  background-color: #fff;
+	border: 1px solid #000;
+	background-color: #fff;
 
-  display: flex;
-  flex-direction: column;
-  gap: 35px;
+	display: flex;
+	flex-direction: column;
+	gap: 35px;
 }
 
 /* ----------------------------- */
@@ -21,15 +21,15 @@
 /* ----------------------------- */
 
 .addBookForm label {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  color: #000;
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.3px;
+	color: #000;
 }
 
 /* ----------------------------- */
@@ -38,22 +38,22 @@
 
 .addBookForm input,
 .addBookForm textarea {
-  border: 2px solid #e4e4e4;
-  padding: 14px 18px;
-  font-size: 14px;
-  outline-color: black;
-  font-family: inherit;
-  transition: border-color 0.2s ease;
+	border: 2px solid #e4e4e4;
+	padding: 14px 18px;
+	font-size: 14px;
+	outline-color: black;
+	font-family: inherit;
+	transition: border-color 0.2s ease;
 }
 
 .addBookForm input:focus,
 .addBookForm textarea:focus {
-  border-color: #000;
+	border-color: #000;
 }
 
 .addBookForm textarea {
-  min-height: 120px;
-  resize: vertical;
+	min-height: 120px;
+	resize: vertical;
 }
 
 /* ----------------------------- */
@@ -61,13 +61,13 @@
 /* ----------------------------- */
 
 .preview {
-  width: 170px;
-  height: 220px;
-  margin-top: 10px;
+	width: 170px;
+	height: 220px;
+	margin-top: 10px;
 
-  border: 2px solid #e4e4e4;
-  object-fit: cover;
-  object-position: center;
+	border: 2px solid #e4e4e4;
+	object-fit: cover;
+	object-position: center;
 }
 
 /* ----------------------------- */
@@ -75,20 +75,20 @@
 /* ----------------------------- */
 
 .error {
-  background-color: #ffe5e5;
-  padding: 12px 15px;
-  border-left: 4px solid #d60000;
-  color: #a10000;
+	background-color: #ffe5e5;
+	padding: 12px 15px;
+	border-left: 4px solid #d60000;
+	color: #a10000;
 
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 14px;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 14px;
 }
 
 .loading {
-  color: #777;
-  font-size: 14px;
-  text-transform: uppercase;
+	color: #777;
+	font-size: 14px;
+	text-transform: uppercase;
 }
 
 /* ----------------------------- */
@@ -96,46 +96,46 @@
 /* ----------------------------- */
 
 .addBookForm button {
-  background-color: #000;
-  color: #fff;
+	background-color: #000;
+	color: #fff;
 
-  padding: 18px 22px;
-  width: 100%;
+	padding: 18px 22px;
+	width: 100%;
 
-  border: 1px solid #000;
-  cursor: pointer;
+	border: 1px solid #000;
+	cursor: pointer;
 
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
 
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    transform 0.18s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease,
+		transform 0.18s ease,
+		box-shadow 0.3s ease,
+		border-color 0.3s ease;
 }
 
 .addBookForm button:hover:not(:disabled) {
-  background-color: #fff;
-  color: #000;
-  transform: translateY(-3px);
+	background-color: #fff;
+	color: #000;
+	transform: translateY(-3px);
 
-  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.15);
 }
 
 .addBookForm button:active:not(:disabled) {
-  transform: translateY(0px);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	transform: translateY(0px);
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .addBookForm button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
+	opacity: 0.5;
+	cursor: not-allowed;
+	box-shadow: none;
+	transform: none;
 }
 
 /* ----------------------------- */
@@ -143,19 +143,19 @@
 /* ----------------------------- */
 
 @media screen and (max-width: 768px) {
-  .addBookForm {
-    padding: 35px 30px;
-    gap: 25px;
-  }
+	.addBookForm {
+		padding: 35px 30px;
+		gap: 25px;
+	}
 }
 
 @media screen and (max-width: 480px) {
-  .addBookForm {
-    padding: 25px 20px;
-  }
+	.addBookForm {
+		padding: 25px 20px;
+	}
 
-  .preview {
-    width: 130px;
-    height: 170px;
-  }
+	.preview {
+		width: 130px;
+		height: 170px;
+	}
 }
