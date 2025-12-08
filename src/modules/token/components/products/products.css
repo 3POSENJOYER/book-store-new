@@ -1,343 +1,344 @@
-.container{
-	margin: 0 auto;
-	justify-content: center;
-	max-width: 1700px;
-	flex-wrap: wrap;
-	gap: 20px;
-	display: flex;
+.container {
+  margin: 0 auto;
+  justify-content: center;
+  max-width: 1700px;
+  flex-wrap: wrap;
+  gap: 20px;
+  display: flex;
 }
 
 .trendyProducts {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 85px 0;
-	padding: 0 160px;
-	gap: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 85px 0;
+  padding: 0 160px;
+  gap: 40px;
 }
 
 .trendyProducts h2 {
-	text-transform: uppercase;
-	font-size: 35px;
-	font-weight: 500;
+  text-transform: uppercase;
+  font-size: 35px;
+  font-weight: 500;
 }
 
 .trendyProducts h2 span {
-	font-weight: 700;
+  font-weight: 700;
 }
 
 .trendyTabs {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
 }
 
 .tabs {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	gap: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
 }
 
 .tabs p {
-	border: none;
-	cursor: pointer;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 16px;
-	font-weight: 600;
-	position: relative;
-	transition: color 0.3s;
-	color: #767676;
-	text-decoration: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+  position: relative;
+  transition: color 0.3s;
+  color: #767676;
+  text-decoration: none;
 }
 
 .tabs p:hover {
-	color: black;
+  color: black;
 }
 
 .tabs p.active {
-	color: black;
+  color: black;
 }
 
 .tabs p.active::after {
-	content: "";
-	position: absolute;
-	bottom: -5px;
-	left: 0;
-	width: 100%;
-	height: 2px;
-	background-color: rgb(0, 0, 0);
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(0, 0, 0);
 }
 
 .tabs p:not(.active)::after {
-	content: "";
-	position: absolute;
-	bottom: -5px;
-	left: 0;
-	width: 0;
-	height: 2px;
-	background-color: rgb(0, 0, 0);
-	transition: width 0.2s ease, left 0.2s ease;
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: rgb(0, 0, 0);
+  transition:
+    width 0.2s ease,
+    left 0.2s ease;
 }
 
 .tabs p:not(.active):hover::after {
-	width: 100%;
-	left: 0;
-	transition-delay: 0.2s;
+  width: 100%;
+  left: 0;
+  transition-delay: 0.2s;
 }
 
 .trendyMainContainer {
-	
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
 }
 
 .trendyProductContainer {
-	position: relative;
+  position: relative;
 }
 
 .trendyProductImages {
-	position: relative;
-	width: 258px;
-	height: 320px;
-	overflow: hidden;
-	-webkit-transition: all 0.2s cubic-bezier(0.99, 0.99, 0, 0.61);
-	transition: 0.3s linear;
-	-moz-transition: 0.3s linear;
-	-o-transition: 0.3s linear;
+  position: relative;
+  width: 258px;
+  height: 320px;
+  overflow: hidden;
+  -webkit-transition: all 0.2s cubic-bezier(0.99, 0.99, 0, 0.61);
+  transition: 0.3s linear;
+  -moz-transition: 0.3s linear;
+  -o-transition: 0.3s linear;
 }
 
 .trendyProductImages img {
-	position: absolute;
-	width: 200px;
-	height: 100%;
-	top: 0;
-	left: 0;
-	overflow: hidden;
-	object-fit: cover;
-	transition: opacity 0.3s linear;
+  position: absolute;
+  width: 200px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  object-fit: cover;
+  transition: opacity 0.3s linear;
 }
 
 .trendyProductImages .trendyProduct_back {
-	z-index: 1;
-	opacity: 0;
-	transition: opacity 0.3s linear;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s linear;
 }
 
 .trendyProductContainer:hover .trendyProduct_back {
-	opacity: 1;
+  opacity: 1;
 }
-.trendyProduct_front{
-	width: 500px;
+.trendyProduct_front {
+  width: 500px;
 }
 
 .trendyProductImages .trendyProduct_front {
-	z-index: 2;
-	transition: opacity 0.3s linear;
-	cursor: pointer;
+  z-index: 2;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
 }
 
 .trendyProductContainer:hover .trendyProduct_front {
-	opacity: 0;
+  opacity: 0;
 }
 
 .trendyProductContainer h4 {
-	color: black;
-	position: relative;
-	top: 320px;
-	width: 200px;
-	text-align: center;
-	padding: 10px;
-	background-color: rgb(253, 253, 253);
-	transition: all 0.2s cubic-bezier(0.99, 0.99, 0, 0.61);
-	margin: 0 10px;
-	text-transform: uppercase;
-	font-weight: 500;
-	font-size: 14px;
-	z-index: 3;
-	cursor: pointer;
+  color: black;
+  position: relative;
+  top: 320px;
+  width: 200px;
+  text-align: center;
+  padding: 10px;
+  background-color: rgb(253, 253, 253);
+  transition: all 0.2s cubic-bezier(0.99, 0.99, 0, 0.61);
+  margin: 0 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 14px;
+  z-index: 3;
+  cursor: pointer;
 }
 
 .trendyProductContainer:hover h4 {
-	top: 270px;
+  top: 270px;
 }
 
 .trendyProductInfo {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .trendyProductCategoryWishlist {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .trendyProductCategoryWishlist p {
-	color: #767676;
-	font-size: 14px;
+  color: #767676;
+  font-size: 14px;
 }
 
 .trendyProductNameInfo {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .trendyProductNameInfo a {
-	text-decoration: none;
-	color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .trendyProductNameInfo h5 {
-	color: black;
-	font-weight: 400;
-	font-size: 16px;
-	text-align: left;
+  color: black;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: left;
 }
 
 .trendyProductRatingReviews {
-	display: flex;
-	gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .trendyProductRatingReviews span {
-	color: #767676;
-	font-size: 14px;
+  color: #767676;
+  font-size: 14px;
 }
 
 .trendyProductRatingStar {
-	display: flex;
-	align-items: center;
-	gap: 3px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .discoverMore p {
-	font-size: 14px;
-	font-weight: 500;
-	text-transform: uppercase;
-	position: relative;
-	display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
 }
 
 .discoverMore p::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	bottom: -5px;
-	width: 60%;
-	border-bottom: 2px solid black;
-	transition: width 0.2s ease;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 60%;
+  border-bottom: 2px solid black;
+  transition: width 0.2s ease;
 }
 
 .discoverMore p:hover::after {
-	width: 100%;
+  width: 100%;
 }
 
 .discoverMore a {
-	text-decoration: none;
-	color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .trendyProductImagesCart {
-	display: none;
+  display: none;
 }
 
 @media screen and (max-width: 1210px) {
-	.trendyProducts {
-		padding: 0 60px;
-	}
+  .trendyProducts {
+    padding: 0 60px;
+  }
 
-	.trendyProducts h2 {
-		font-size: 26px;
-	}
+  .trendyProducts h2 {
+    font-size: 26px;
+  }
 
-	.trendyProductImages {
-		width: 100%;
-		height: 250px;
-	}
+  .trendyProductImages {
+    width: 100%;
+    height: 250px;
+  }
 
-	.trendyProductContainer h4 {
-		display: none;
-	}
+  .trendyProductContainer h4 {
+    display: none;
+  }
 
-	.trendyProductImagesCart {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		border-radius: 50%;
-		padding: 5px;
-		z-index: 8;
-		color: gray;
-	}
+  .trendyProductImagesCart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+    padding: 5px;
+    z-index: 8;
+    color: gray;
+  }
 }
 
 @media screen and (max-width: 768px) {
-	.trendyMainContainer {
-		grid-template-columns: repeat(3, 1fr);
-		grid-gap: 20px;
-	}
+  .trendyMainContainer {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
 
-	.trendyProductImages {
-		width: 100%;
-		height: 240px;
-	}
+  .trendyProductImages {
+    width: 100%;
+    height: 240px;
+  }
 }
 
 @media screen and (max-width: 450px) {
-	.trendyProducts {
-		padding: 0 15px;
-	}
+  .trendyProducts {
+    padding: 0 15px;
+  }
 
-	.tabs {
-		gap: 30px;
-	}
+  .tabs {
+    gap: 30px;
+  }
 
-	.trendyMainContainer {
-		grid-template-columns: repeat(2, 1fr);
-	}
+  .trendyMainContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-	.trendyProductImages {
-		width: 100%;
-		height: 235px;
-	}
+  .trendyProductImages {
+    width: 100%;
+    height: 235px;
+  }
 }
 
 @media screen and (max-width: 320px) {
-	.trendyProductImages {
-		width: 100%;
-		height: 170px;
-	}
+  .trendyProductImages {
+    width: 100%;
+    height: 170px;
+  }
 
-	.trendyProductNameInfo h5 {
-		font-size: 14px;
-	}
+  .trendyProductNameInfo h5 {
+    font-size: 14px;
+  }
 
-	.trendyProductNameInfo p {
-		font-size: 12px;
-	}
+  .trendyProductNameInfo p {
+    font-size: 12px;
+  }
 
-	.trendyProductRatingReviews {
-		display: flex;
-		gap: 5px;
-	}
+  .trendyProductRatingReviews {
+    display: flex;
+    gap: 5px;
+  }
 
-	.trendyProductRatingReviews span {
-		font-size: 12px;
-	}
+  .trendyProductRatingReviews span {
+    font-size: 12px;
+  }
 
-	.trendyProductRatingStar {
-		display: flex;
-		align-items: center;
-		gap: 2px;
-	}
+  .trendyProductRatingStar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
 }

@@ -4,7 +4,7 @@ import { OrdersService } from './orders.service';
 import { Order } from './schemas/order.schema';
 
 const mockOrderModel = {
-  create: jest.fn().mockImplementation(dto => dto),
+  create: jest.fn().mockImplementation((dto) => dto),
 
   find: jest.fn().mockReturnValue({
     exec: jest.fn().mockResolvedValue([

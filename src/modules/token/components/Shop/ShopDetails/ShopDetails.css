@@ -7,8 +7,6 @@
   gap: 30px;
 }
 
-
-
 /* Shop Right Section */
 
 .shopDetails__right {
@@ -115,7 +113,7 @@
 .sdProductImages img {
   position: absolute;
   width: 225px;
-	height: 320px;
+  height: 320px;
   top: 0;
   left: 0;
   overflow: hidden;
@@ -146,19 +144,19 @@
 .sdProductContainer h4 {
   opacity: 0;
   color: black;
-	position: relative;
-	top: 320px;
-	width: 200px;
-	text-align: center;
-	padding: 10px;
-	background-color: rgb(253, 253, 253);
-	transition: all 0.2s cubic-bezier(0.99, 0.99, 0, 0.61);
-	margin: 0 10px;
-	text-transform: uppercase;
-	font-weight: 500;
-	font-size: 14px;
-	z-index: 3;
-	cursor: pointer;
+  position: relative;
+  top: 320px;
+  width: 200px;
+  text-align: center;
+  padding: 10px;
+  background-color: rgb(253, 253, 253);
+  transition: all 0.2s cubic-bezier(0.99, 0.99, 0, 0.61);
+  margin: 0 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 14px;
+  z-index: 3;
+  cursor: pointer;
 }
 
 .sdProductContainer:hover h4 {
@@ -448,7 +446,6 @@
 
   .sdProductNameInfo h5 {
     font-size: 14px;
-    
   }
 
   .sdProductNameInfo p {

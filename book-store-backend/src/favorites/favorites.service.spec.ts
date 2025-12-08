@@ -11,7 +11,7 @@ const mockFavoriteModel = {
     ]),
   }),
 
-  create: jest.fn().mockImplementation(dto => dto),
+  create: jest.fn().mockImplementation((dto) => dto),
 
   deleteOne: jest.fn().mockResolvedValue({ deletedCount: 1 }),
 };

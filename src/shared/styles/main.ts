@@ -1,10 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import {
-	injectGlobal,
-} from '@emotion/css'
-import {
-	orbitronRegular,
-} from './fonts'
+import { injectGlobal } from "@emotion/css";
+import { orbitronRegular } from "./fonts";
 
 injectGlobal`
 	html, body {
@@ -38,14 +34,14 @@ injectGlobal`
 	}
 
 	p, h1, h2, h3, h4, h5, h6, a, {
-		${orbitronRegular(12,)}
+		${orbitronRegular(12)}
 		overflow-wrap: break-word;
 		margin-bottom: 0 !important;
 		color: var(--white);
 	}
 
 	input, button, textarea, select {
-		${orbitronRegular(12,)}
+		${orbitronRegular(12)}
 		padding: 0;
 	}
 
@@ -82,4 +78,4 @@ injectGlobal`
 	[data-theme="light"] .bp5-drawer-header > button > svg > path {
 		fill: var(--gray-600);
 	} */
-`
+`;

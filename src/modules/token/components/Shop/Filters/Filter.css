@@ -1,5 +1,4 @@
-
-.container{
+.container {
   max-width: 1600px;
   display: flex;
 }
@@ -19,7 +18,6 @@
   font-weight: 600;
   text-transform: uppercase;
 }
-
 
 /* filter Sizes */
 
