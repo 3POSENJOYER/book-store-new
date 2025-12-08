@@ -6,7 +6,7 @@ import { GoChevronLeft, GoChevronRight } from 'react-icons/go'
 import { PiShareNetworkLight } from 'react-icons/pi'
 import './product-detalis.css'
 
-// Визначення інтерфейсу Product (повинно збігатися з ProductDto на бекенді)
+// Визначення інтерфейсу Product
 interface IProduct {
 	productID: number
 	productName: string
@@ -17,7 +17,7 @@ interface IProduct {
 	productReviews: string
 }
 
-const API_BASE_URL = 'http://localhost:3000'
+const API_BASE_URL = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
 export const ProductDeatlis: React.FC = () => {
 	const [quantity, setQuantity] = useState(1)

@@ -6,7 +6,6 @@ interface IProduct {
 	price: number
 	image: string
 	description?: string
-	// add more fields as needed
 }
 
 const Favorites: React.FC = () => {
