@@ -33,17 +33,42 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 
 	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
-	const handleHeartActive = (id: number): void => {
+	const handleHeartActive = async (id: number): Promise<void> => {
 		setHeartedIds((prev) => {
 			const newSet = new Set(prev)
+
+			// якщо вже є — видаляємо
 			if (newSet.has(id)) {
 				newSet.delete(id)
-			} else {
-				newSet.add(id)
+				fetch(`${apiUrl}/api/favorites/${id}`, {
+					method: 'DELETE',
+				}).catch(() => {})
 			}
+			// якщо нема — додаємо
+			else {
+				newSet.add(id)
+				fetch(`${apiUrl}/api/favorites/${id}`, {
+					method: 'POST',
+				}).catch(() => {})
+			}
+
 			return newSet
 		})
 	}
+	useEffect(() => {
+		const loadFavorites = async (): Promise<void> => {
+			try {
+				const res = await fetch(`${apiUrl}/api/favorites`)
+				const ids: Array<number> = await res.json()
+				setHeartedIds(new Set(ids))
+			} catch {
+				console.error('Cannot load favorites')
+			}
+		}
+
+		loadFavorites()
+	}, [apiUrl])
+
 	useEffect(() => {
 		if (heartedIds.size === 0) {
 			return
