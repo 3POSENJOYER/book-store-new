@@ -5,24 +5,20 @@ import { FavoritesService } from './favorites.service';
 export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
-  @Get(':userID')
-  async getFavorites(@Param('userID') userID: string) {
-    return this.favoritesService.getAll(userID);
+  private mockUser = '1'; // замінити на справжній userId коли буде auth
+
+  @Get()
+  getFavorites() {
+    return this.favoritesService.getUserFavorites(this.mockUser);
   }
 
-  @Post(':userID/:productID')
-  async add(
-    @Param('userID') userID: string,
-    @Param('productID') productID: string,
-  ) {
-    return this.favoritesService.add(userID, Number(productID));
+  @Post(':id')
+  addFavorite(@Param('id') id: string) {
+    return this.favoritesService.addToFavorites(this.mockUser, Number(id));
   }
 
-  @Delete(':userID/:productID')
-  async remove(
-    @Param('userID') userID: string,
-    @Param('productID') productID: string,
-  ) {
-    return this.favoritesService.remove(userID, Number(productID));
+  @Delete(':id')
+  removeFavorite(@Param('id') id: string) {
+    return this.favoritesService.removeFromFavorites(this.mockUser, Number(id));
   }
 }

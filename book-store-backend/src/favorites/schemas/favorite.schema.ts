@@ -1,14 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema()
-export class Favorite {
+@Schema({ timestamps: true })
+export class Favorite extends Document {
   @Prop({ required: true })
-  userID: string;
+  userId: string;
 
-  @Prop({ required: true })
-  productID: number;
+  @Prop({ type: [Number], default: [] })
+  productIds: number[];
 }
 
-export type FavoriteDocument = Favorite & Document;
 export const FavoriteSchema = SchemaFactory.createForClass(Favorite);

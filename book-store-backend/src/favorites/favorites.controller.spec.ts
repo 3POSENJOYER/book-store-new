@@ -7,9 +7,9 @@ describe('FavoritesController', () => {
   let service: FavoritesService;
 
   const mockFavoritesService = {
-    getAll: jest.fn().mockResolvedValue([{ productID: 1 }]),
-    add: jest.fn().mockResolvedValue({ userID: '123', productID: 5 }),
-    remove: jest.fn().mockResolvedValue({ deletedCount: 1 }),
+    getUserFavorites: jest.fn(),
+    addToFavorites: jest.fn(),
+    removeFromFavorites: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -27,34 +27,41 @@ describe('FavoritesController', () => {
     service = module.get<FavoritesService>(FavoritesService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('getFavorites', () => {
-    it('should return user favorites', async () => {
-      const result = await controller.getFavorites('123');
+  describe('GET /favorites', () => {
+    it('should return favorites list', async () => {
+      mockFavoritesService.getUserFavorites.mockResolvedValue([1, 2]);
 
-      expect(result).toEqual([{ productID: 1 }]);
-      expect(service.getAll).toHaveBeenCalledWith('123');
+      const result = await controller.getFavorites();
+      expect(result).toEqual([1, 2]);
+      expect(service.getUserFavorites).toHaveBeenCalledWith('1');
     });
   });
 
-  describe('add', () => {
+  describe('POST /favorites/:id', () => {
     it('should add product to favorites', async () => {
-      const result = await controller.add('123', '5');
+      mockFavoritesService.addToFavorites.mockResolvedValue([1, 2, 3]);
 
-      expect(result).toEqual({ userID: '123', productID: 5 });
-      expect(service.add).toHaveBeenCalledWith('123', 5);
+      const result = await controller.addFavorite('3');
+      expect(result).toEqual([1, 2, 3]);
+      expect(service.addToFavorites).toHaveBeenCalledWith('1', 3);
     });
   });
 
-  describe('remove', () => {
-    it('should remove from favorites', async () => {
-      const result = await controller.remove('123', '7');
+  describe('DELETE /favorites/:id', () => {
+    it('should remove product from favorites', async () => {
+      mockFavoritesService.removeFromFavorites.mockResolvedValue([1]);
 
-      expect(result).toEqual({ deletedCount: 1 });
-      expect(service.remove).toHaveBeenCalledWith('123', 7);
+      const result = await controller.removeFavorite('2');
+      expect(result).toEqual([1]);
+      expect(service.removeFromFavorites).toHaveBeenCalledWith('1', 2);
     });
   });
 });

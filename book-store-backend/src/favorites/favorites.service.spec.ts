@@ -1,24 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
 import { FavoritesService } from './favorites.service';
+import { getModelToken } from '@nestjs/mongoose';
 import { Favorite } from './schemas/favorite.schema';
-
-const mockFavoriteModel = {
-  find: jest.fn().mockReturnValue({
-    exec: jest.fn().mockResolvedValue([
-      { userID: '123', productID: 1 },
-      { userID: '123', productID: 2 },
-    ]),
-  }),
-
-  create: jest.fn().mockImplementation((dto) => dto),
-
-  deleteOne: jest.fn().mockResolvedValue({ deletedCount: 1 }),
-};
 
 describe('FavoritesService', () => {
   let service: FavoritesService;
-  let model: typeof mockFavoriteModel;
+  let model: any;
+
+  const mockFavoriteModel = {
+    findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -35,39 +27,61 @@ describe('FavoritesService', () => {
     model = module.get(getModelToken(Favorite.name));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getAll', () => {
-    it('should return user favorites', async () => {
-      const result = await service.getAll('123');
-      expect(result.length).toBe(2);
-      expect(model.find).toHaveBeenCalledWith({ userID: '123' });
+  describe('getUserFavorites', () => {
+    it('should return array of product IDs', async () => {
+      model.findOne.mockResolvedValue({ productIds: [1, 2, 3] });
+
+      const result = await service.getUserFavorites('1');
+      expect(result).toEqual([1, 2, 3]);
+    });
+
+    it('should return empty array if no favorites exist', async () => {
+      model.findOne.mockResolvedValue(null);
+
+      const result = await service.getUserFavorites('1');
+      expect(result).toEqual([]);
     });
   });
 
-  describe('add', () => {
-    it('should add a new favorite', async () => {
-      const result = await service.add('123', 5);
-
-      expect(result).toEqual({ userID: '123', productID: 5 });
-      expect(model.create).toHaveBeenCalledWith({
-        userID: '123',
-        productID: 5,
+  describe('addToFavorites', () => {
+    it('should add product and return updated list', async () => {
+      model.findOneAndUpdate.mockResolvedValue({
+        productIds: [1, 5],
       });
+
+      const result = await service.addToFavorites('1', 5);
+      expect(result).toEqual([1, 5]);
+
+      expect(model.findOneAndUpdate).toHaveBeenCalledWith(
+        { userId: '1' },
+        { $addToSet: { productIds: 5 } },
+        { new: true, upsert: true },
+      );
     });
   });
 
-  describe('remove', () => {
-    it('should remove a favorite', async () => {
-      const result = await service.remove('123', 1);
-
-      expect(result).toEqual({ deletedCount: 1 });
-      expect(model.deleteOne).toHaveBeenCalledWith({
-        userID: '123',
-        productID: 1,
+  describe('removeFromFavorites', () => {
+    it('should remove product and return updated list', async () => {
+      model.findOneAndUpdate.mockResolvedValue({
+        productIds: [2, 3],
       });
+
+      const result = await service.removeFromFavorites('1', 1);
+      expect(result).toEqual([2, 3]);
+    });
+
+    it('should throw error when favorites not found', async () => {
+      model.findOneAndUpdate.mockResolvedValue(null);
+
+      await expect(service.removeFromFavorites('1', 10)).rejects.toThrow();
     });
   });
 });
