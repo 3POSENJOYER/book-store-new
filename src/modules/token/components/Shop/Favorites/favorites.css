@@ -27,7 +27,9 @@
 	overflow: hidden;
 	background: white;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
 	cursor: pointer;
 }
 
