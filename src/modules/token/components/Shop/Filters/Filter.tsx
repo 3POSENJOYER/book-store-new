@@ -20,6 +20,7 @@ interface Product {
 	productPrice: number
 	productReviews: string
 	count?: number
+	author?: string
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

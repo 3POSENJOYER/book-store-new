@@ -82,7 +82,6 @@ export const Products: React.FC = () => {
 			} catch (err) {
 				console.error('Помилка відправки даних кошика:', err)
 			}
-			
 		}
 		postCartData()
 	}, [cartData])

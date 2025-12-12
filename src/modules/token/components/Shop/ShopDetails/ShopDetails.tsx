@@ -43,7 +43,7 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 				body: JSON.stringify({ productID: id, quantity: 1 }),
 			})
 			if (res.ok) {
-				alert('Added to cart!')
+				alert('Added to cartSS!')
 			}
 		} catch (err) {
 			console.error(err)
