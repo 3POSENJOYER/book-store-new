@@ -1,5 +1,6 @@
-import StoreData from '../../products/data'
-import React, { useState } from 'react'
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+import React, { useEffect, useState } from 'react'
 import './Filter.css'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -12,27 +13,46 @@ interface Product {
 	productPrice: number
 	productReviews: string
 	count?: number
+	author: string
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface FilterProps {
 	setFiltered: React.Dispatch<React.SetStateAction<Array<Product>>>
 }
+
 const AuthorFilter: React.FC<FilterProps> = ({ setFiltered }) => {
+	const [allProducts, setAllProducts] = useState<Array<Product>>([])
 	const [searchTerm] = useState('')
 	const [selectedAuthor, setSelectedAuthor] = useState<Array<string>>([])
+
+	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const res = await fetch(`${apiUrl}/api/products`)
+				if (res.ok) {
+					const data = await res.json()
+					setAllProducts(data)
+				}
+			} catch (err) {
+				console.error('Error loading authors:', err)
+			}
+		}
+		fetchProducts()
+	}, [apiUrl])
+
 	const handleAuthorChange = (AuthorName: string): void => {
 		setSelectedAuthor((prev) => {
 			const newSelectedAuthor = prev.includes(AuthorName)
-				? prev.filter((Author) => {
-						return Author !== AuthorName
-					})
+				? prev.filter((Author) => Author !== AuthorName)
 				: [...prev, AuthorName]
 
 			if (newSelectedAuthor.length === 0) {
-				setFiltered(StoreData)
+				setFiltered(allProducts)
 			} else {
-				const filteredProducts = StoreData.filter((product) => {
+				const filteredProducts = allProducts.filter((product) => {
 					return newSelectedAuthor.includes(product.author)
 				})
 				setFiltered(filteredProducts)
@@ -41,9 +61,11 @@ const AuthorFilter: React.FC<FilterProps> = ({ setFiltered }) => {
 			return newSelectedAuthor
 		})
 	}
-	const filteredAuthor = StoreData.filter((Author) => {
+
+	const filteredAuthor = allProducts.filter((Author) => {
 		return Author.author.toLowerCase().includes(searchTerm.toLowerCase())
 	})
+
 	return (
 		<div>
 			<div className='brandList'>
