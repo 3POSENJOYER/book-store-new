@@ -1,140 +1,166 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { FaStar } from 'react-icons/fa'
-import { FiHeart } from 'react-icons/fi'
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go'
-import { PiShareNetworkLight } from 'react-icons/pi'
 import './product-detalis.css'
 
 interface IProduct {
-	productID: number
-	productName: string
-	produtDescription: string
-	frontImg?: string
-	backImg?: string
-	productPrice: number
-	productReviews: string
+    productID: number
+    productName: string
+    produtDescription: string
+    frontImg?: string
+    backImg?: string
+    productPrice: number
+    productReviews: string
 }
 
 const API_BASE_URL = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
 export const ProductDeatlis: React.FC = () => {
-	const [quantity, setQuantity] = useState(1)
-	const [detail, setDetail] = useState<IProduct | null>(null)
-	const [loading, setLoading] = useState(true)
+    const [quantity, setQuantity] = useState(1)
+    const [detail, setDetail] = useState<IProduct | null>(null)
+    const [loading, setLoading] = useState(true)
+    const [data, setData] = useState<Array<IProduct>>([])
 
-	const { id } = useParams<{ id: string }>()
+    const { id } = useParams<{ id: string }>()
 
-	useEffect(() => {
-		if (!id) {
-			return
-		}
+    useEffect(() => {
+        const fetchData = async ():Promise<void> => {
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/products`)
+                if (!res.ok) {throw new Error('Failed to fetch products')}
 
-		const fetchProductDetail = async (): Promise<void> => {
-			setLoading(true)
-			try {
-				const res = await fetch(`${API_BASE_URL}/api/products/${id}`)
+                const products: Array<IProduct> = await res.json()
+                setData(products)
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        fetchData()
+    }, [])
 
-				if (res.status === 404) {
-					setDetail(null)
-					setLoading(false)
-					return
-				}
+    // ---------- Fetch product by ID ----------
+    useEffect(() => {
+        if (!id) {return}
 
-				if (!res.ok) {
-					throw new Error(`HTTP error! status: ${res.status}`)
-				}
+        const fetchProductDetail = async () => {
+            setLoading(true)
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/products/${id}`)
 
-				const data: IProduct = await res.json()
-				setDetail(data)
-			} catch (err) {
-				console.error('Failed to fetch product details:', err)
-				setDetail(null)
-			} finally {
-				setLoading(false)
-			}
-		}
-		fetchProductDetail()
-	}, [id])
+                if (res.status === 404) {
+                    setDetail(null)
+                    setLoading(false)
+                    return
+                }
 
-	const increment = (): void => {
-		setQuantity(quantity + 1)
-	}
-	const decrement = (): void => {
-		if (quantity > 1) {
-			setQuantity(quantity - 1)
-		}
-	}
-	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-		const value = parseInt(event.target.value)
-		if (!isNaN(value) && value > 0) {
-			setQuantity(value)
-		}
-	}
-	const [clicked, setClicked] = useState(false)
+                if (!res.ok) {throw new Error(`HTTP Error: ${res.status}`)}
 
-	if (loading) {
-		return <h2>Loading product details...</h2>
-	}
+                const product: IProduct = await res.json()
+                setDetail(product)
+            } catch (err) {
+                console.error('Failed to fetch product details:', err)
+                setDetail(null)
+            } finally {
+                setLoading(false)
+            }
+        }
 
-	if (!detail) {
-		return <h2>Product with ID {id} not found</h2>
-	}
+        fetchProductDetail()
+    }, [id])
 
-	const currentId = detail.productID
-	const nextId = currentId + 1
-	const prevId = currentId - 1
+    // ---------- Add to cart ----------
+    const addToCart = async (productID: number) => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/cart`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productID, quantity })
+            })
 
-	return (
-		<>
-			<div className='productSection'>
-				<div className='productShowCase'>
-					<div className='productGallery'>
-						<div className='productThumb'>
-							<img src={detail.frontImg} alt={detail.productName} />
-						</div>
-					</div>
-					<div className='productDetails'>
-						<div className='productBreadcrumb'>
-							<div className='breadcrumbLink'>
-								<Link to='/'>Home</Link>&nbsp;/&nbsp;
-								<Link to='/shop'>The Shop</Link>
-							</div>
-							<div className='prevNextLink'>
-								<Link to={`/product/${prevId}`}>
-									<GoChevronLeft />
-									<p>Prev</p>
-								</Link>
+            if (res.ok) {
+                alert('Added to cart!')
+            }
+        } catch (err) {
+            console.error('Add to cart error:', err)
+        }
+    }
 
-								<Link to={`/product/${nextId}`}>
-									<p>Next</p>
-									<GoChevronRight />
-								</Link>
-							</div>
-						</div>
-						<div className='productName'>
-							<h1>{detail.productName}</h1>
-						</div>
+    // ---------- Quantity handlers ----------
+    const increment = () => { setQuantity(prev => prev + 1); }
 
-						<div className='productDescription'>
-							<p>{detail.produtDescription}</p>
-						</div>
+    const decrement = () => {
+        if (quantity > 1) {setQuantity(prev => prev - 1)}
+    }
 
-						<div className='productCartQuantity'>
-							<div className='productQuantity'>
-								<button onClick={decrement}>-</button>
-								<input type='text' value={quantity} onChange={handleInputChange} />
-								<button onClick={increment}>+</button>
-							</div>
-							<div className='productCartBtn'>
-								<button>Add to Cart</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</>
-	)
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value)
+        if (!isNaN(value) && value > 0) {setQuantity(value)}
+    }
+
+    if (loading) {return <h2>Loading product details...</h2>}
+
+    if (!detail) {return <h2>Product with ID {id} not found</h2>}
+
+    const nextId = detail.productID + 1
+    const prevId = detail.productID - 1
+
+    return (
+        <div className="productSection">
+            <div className="productShowCase">
+                <div className="productGallery">
+                    <div className="productThumb">
+                        <img src={detail.frontImg} alt={detail.productName} />
+                    </div>
+                </div>
+
+                <div className="productDetails">
+                    <div className="productBreadcrumb">
+                        <div className="breadcrumbLink">
+                            <Link to="/">Home</Link> / <Link to="/shop">The Shop</Link>
+                        </div>
+
+                        <div className="prevNextLink">
+                            <Link to={`/product/${prevId}`}>
+                                <GoChevronLeft />
+                                <p>Prev</p>
+                            </Link>
+
+                            <Link to={`/product/${nextId}`}>
+                                <p>Next</p>
+                                <GoChevronRight />
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="productName">
+                        <h1>{detail.productName}</h1>
+                    </div>
+
+                    <div className="productDescription">
+                        <p>{detail.produtDescription}</p>
+                    </div>
+
+                    <div className="productCartQuantity">
+                        <div className="productQuantity">
+                            <button onClick={decrement}>-</button>
+                            <input type="text" value={quantity} onChange={handleInputChange} />
+                            <button onClick={increment}>+</button>
+                        </div>
+
+                        <div className="productCartBtn">
+                            <button
+                                onClick={async ():Promise<void> => addToCart(detail.productID)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default ProductDeatlis
