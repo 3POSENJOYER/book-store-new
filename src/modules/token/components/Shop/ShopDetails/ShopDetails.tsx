@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/promise-function-async */
 import React, { useEffect, useState } from 'react'
 import './ShopDetails.css'
 
@@ -33,28 +35,35 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 
 	const apiUrl = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
+	const addToCart = async (id: number) => {
+		try {
+			const res = await fetch(`${apiUrl}/api/cart`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ productID: id, quantity: 1 }),
+			})
+			if (res.ok) {
+				alert('Added to cart!')
+			}
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
 	const handleHeartActive = async (id: number): Promise<void> => {
 		setHeartedIds((prev) => {
 			const newSet = new Set(prev)
-
-			// якщо вже є — видаляємо
 			if (newSet.has(id)) {
 				newSet.delete(id)
-				fetch(`${apiUrl}/api/favorites/${id}`, {
-					method: 'DELETE',
-				}).catch(() => {})
-			}
-			// якщо нема — додаємо
-			else {
+				fetch(`${apiUrl}/api/favorites/${id}`, { method: 'DELETE' }).catch(() => {})
+			} else {
 				newSet.add(id)
-				fetch(`${apiUrl}/api/favorites/${id}`, {
-					method: 'POST',
-				}).catch(() => {})
+				fetch(`${apiUrl}/api/favorites/${id}`, { method: 'POST' }).catch(() => {})
 			}
-
 			return newSet
 		})
 	}
+
 	useEffect(() => {
 		const loadFavorites = async (): Promise<void> => {
 			try {
@@ -65,38 +74,9 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 				console.error('Cannot load favorites')
 			}
 		}
-
 		loadFavorites()
 	}, [apiUrl])
 
-	useEffect(() => {
-		if (heartedIds.size === 0) {
-			return
-		}
-		const addToFavorites = async (): Promise<void> => {
-			try {
-				const res = await fetch(`${apiUrl}/api/favorites`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						favoriteProductIds: Array.from(heartedIds),
-					}),
-				})
-
-				if (!res.ok) {
-					throw new Error('Failed to save favorites')
-				}
-
-				const data = await res.json()
-				console.log('Favorites saved:', data)
-			} catch (err) {
-				console.error('Error saving favorites:', err)
-			}
-		}
-		addToFavorites()
-	}, [heartedIds, apiUrl])
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			setIsLoading(true)
@@ -104,7 +84,6 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 				return el.productPrice >= value1[0] && el.productPrice <= value1[1]
 			})
 			setIsLoading(false)
-
 			setProducts(sorted)
 		}, 300)
 
@@ -112,40 +91,26 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 			clearTimeout(handler)
 		}
 	}, [value1, filtered])
+
 	useEffect(() => {
 		const sorted = [...filtered]
-
 		if (selectSort === 'lowToHigh') {
-			sorted.sort((a, b) => {
-				return a.productPrice - b.productPrice
-			})
+			sorted.sort((a, b) => a.productPrice - b.productPrice)
 		}
-
 		if (selectSort === 'highToLow') {
-			sorted.sort((a, b) => {
-				return b.productPrice - a.productPrice
-			})
+			sorted.sort((a, b) => b.productPrice - a.productPrice)
 		}
-
 		if (selectSort === 'a-z') {
-			sorted.sort((a, b) => {
-				return a.productName.localeCompare(b.productName)
-			})
+			sorted.sort((a, b) => a.productName.localeCompare(b.productName))
 		}
-
 		if (selectSort === 'z-a') {
-			sorted.sort((a, b) => {
-				return b.productName.localeCompare(a.productName)
-			})
+			sorted.sort((a, b) => b.productName.localeCompare(a.productName))
 		}
-
 		setProducts(sorted)
 	}, [selectSort, filtered])
+
 	const scrollToTop = (): void => {
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth',
-		})
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 	const toggleDrawer = (): void => {
 		setIsDrawerOpen(!isDrawerOpen)
@@ -153,6 +118,7 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 	const closeDrawer = (): void => {
 		setIsDrawerOpen(false)
 	}
+
 	return (
 		<>
 			<div className='shopDetails'>
@@ -164,8 +130,7 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 								<Link to='/' onClick={scrollToTop}>
 									Home
 								</Link>
-								&nbsp;/&nbsp;
-								<Link to='/shop'>The Shop</Link>
+								&nbsp;/&nbsp;<Link to='/shop'>The Shop</Link>
 							</div>
 							<div className='filterLeft' onClick={toggleDrawer}>
 								<IoFilterSharp />
@@ -176,8 +141,6 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 									onChange={(e): void => {
 										setSelectSort(e.target.value)
 									}}
-									name='sort'
-									id='sort'
 									value={selectSort}
 								>
 									<option value='default'>Default Sorting</option>
@@ -206,22 +169,28 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 														<img src={product.frontImg} alt='' className='sdProduct_front' />
 														<img src={product.backImg} alt='' className='sdProduct_back' />
 													</Link>
-													<h4>Add to Cart</h4>
+
+													<h4 onClick={() => addToCart(product.productID)} style={{ cursor: 'pointer' }}>
+														Add to Cart
+													</h4>
 												</div>
-												<div className='sdProductImagesCart'>
+
+												<div
+													className='sdProductImagesCart'
+													onClick={() => addToCart(product.productID)}
+													style={{ cursor: 'pointer' }}
+												>
 													<FaCartPlus />
 												</div>
+
 												<div className='sdProductInfo'>
 													<div className='sdProductCategoryWishlist'>
 														<FiHeart
 															size={24}
 															color={heartedIds.has(product.productID) ? '#ef4444' : '#ecedeeff'}
-															fill='transparent'
+															fill={heartedIds.has(product.productID) ? '#ef4444' : 'transparent'}
 															strokeWidth={2}
-															style={{
-																cursor: 'pointer',
-																transition: 'all 0.2s',
-															}}
+															style={{ cursor: 'pointer', transition: 'all 0.2s' }}
 															onClick={(): void => {
 																handleHeartActive(product.productID)
 															}}
@@ -231,7 +200,6 @@ const ShopDetails: React.FC<ShopDetailsProps> = ({ filtered, value1 }) => {
 														<Link to={`/product/${product.productID}`} onClick={scrollToTop}>
 															<h5>{product.productName}</h5>
 														</Link>
-
 														<p>${product.productPrice}</p>
 														<div className='sdProductRatingReviews'>
 															<div className='sdProductRatingStar'>

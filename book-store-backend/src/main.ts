@@ -6,14 +6,10 @@ import * as express from 'express';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 📌 Глобальний префікс API
   app.setGlobalPrefix('api');
 
-  // 📌 Роздача статичних файлів (картинок)
-  // /images/products/назва.jpg -> public/products/назва.jpg
   app.use('/images', express.static(join(__dirname, '..', 'public')));
 
-  // 📌 CORS
   app.enableCors({
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

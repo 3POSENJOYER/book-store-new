@@ -6,7 +6,6 @@ import { GoChevronLeft, GoChevronRight } from 'react-icons/go'
 import { PiShareNetworkLight } from 'react-icons/pi'
 import './product-detalis.css'
 
-// Визначення інтерфейсу Product
 interface IProduct {
 	productID: number
 	productName: string
@@ -21,13 +20,11 @@ const API_BASE_URL = import.meta.env['VITE_API_URL'] || 'http://localhost:3000'
 
 export const ProductDeatlis: React.FC = () => {
 	const [quantity, setQuantity] = useState(1)
-	// Стан для зберігання даних продукту, завантажених з API
 	const [detail, setDetail] = useState<IProduct | null>(null)
 	const [loading, setLoading] = useState(true)
 
 	const { id } = useParams<{ id: string }>()
 
-	// --- 1. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДЕТАЛЕЙ ПРОДУКТУ З API ---
 	useEffect(() => {
 		if (!id) {
 			return
@@ -36,7 +33,6 @@ export const ProductDeatlis: React.FC = () => {
 		const fetchProductDetail = async (): Promise<void> => {
 			setLoading(true)
 			try {
-				// Використовуємо GET /products/:id маршрут на NestJS
 				const res = await fetch(`${API_BASE_URL}/api/products/${id}`)
 
 				if (res.status === 404) {
@@ -60,7 +56,6 @@ export const ProductDeatlis: React.FC = () => {
 		}
 		fetchProductDetail()
 	}, [id])
-	// ----------------------------------------------------------------------
 
 	const increment = (): void => {
 		setQuantity(quantity + 1)
@@ -78,7 +73,6 @@ export const ProductDeatlis: React.FC = () => {
 	}
 	const [clicked, setClicked] = useState(false)
 
-	// --- Стан завантаження та Не знайдено ---
 	if (loading) {
 		return <h2>Loading product details...</h2>
 	}
@@ -86,7 +80,6 @@ export const ProductDeatlis: React.FC = () => {
 	if (!detail) {
 		return <h2>Product with ID {id} not found</h2>
 	}
-	// ------------------------------------------
 
 	const currentId = detail.productID
 	const nextId = currentId + 1
@@ -108,7 +101,6 @@ export const ProductDeatlis: React.FC = () => {
 								<Link to='/shop'>The Shop</Link>
 							</div>
 							<div className='prevNextLink'>
-								{/* Використовуємо припущення, що ID є послідовними (тимчасово) */}
 								<Link to={`/product/${prevId}`}>
 									<GoChevronLeft />
 									<p>Prev</p>
@@ -123,13 +115,10 @@ export const ProductDeatlis: React.FC = () => {
 						<div className='productName'>
 							<h1>{detail.productName}</h1>
 						</div>
-						{/* ... (інші деталі продукту, як і раніше) ... */}
 
 						<div className='productDescription'>
 							<p>{detail.produtDescription}</p>
 						</div>
-
-						{/* ... (інші секції) ... */}
 
 						<div className='productCartQuantity'>
 							<div className='productQuantity'>
@@ -141,8 +130,6 @@ export const ProductDeatlis: React.FC = () => {
 								<button>Add to Cart</button>
 							</div>
 						</div>
-
-						{/* ... (решта розмітки) ... */}
 					</div>
 				</div>
 			</div>

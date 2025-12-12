@@ -19,16 +19,12 @@ interface Product {
 }
 
 export const Products: React.FC = () => {
-	// Оновлюємо стан для зберігання всіх продуктів, отриманих з API
 	const [products, setProducts] = useState<Array<Product>>([])
-	// Стан для кошика/відправки на сервер
 	const [cartData, setCartData] = useState<Array<Product>>([])
 
-	// --- ФУНКЦІЯ ЗАВАНТАЖЕННЯ ПРОДУКТІВ (З API) ---
 	useEffect(() => {
 		const fetchProducts = async (): Promise<void> => {
 			try {
-				// Використовуємо GET-маршрут для отримання каталогу
 				const res = await fetch(`${API_BASE_URL}/api/products`)
 
 				if (!res.ok) {
@@ -66,15 +62,12 @@ export const Products: React.FC = () => {
 		}
 	}
 
-	// ---  ФУНКЦІЯ ВІДПРАВКИ ДАНИХ КОШИКА (ДО API) ---
 	useEffect(() => {
-		// Відправляємо дані на сервер лише якщо cartData не порожній
 		if (cartData.length === 0) {
 			return
 		}
 		const postCartData = async (): Promise<void> => {
 			try {
-				// Повний URL до NestJS (POST /storeDataServer)
 				const res = await fetch(`${API_BASE_URL}/api/storeDataServer`, {
 					method: 'POST',
 					headers: {
