@@ -13,7 +13,7 @@ interface Product {
 	productPrice: number
 	productReviews: string
 	count?: number
-	author: string
+	author?: string
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -53,7 +53,7 @@ const AuthorFilter: React.FC<FilterProps> = ({ setFiltered }) => {
 				setFiltered(allProducts)
 			} else {
 				const filteredProducts = allProducts.filter((product) => {
-					return newSelectedAuthor.includes(product.author)
+					return product.author && newSelectedAuthor.includes(product.author)
 				})
 				setFiltered(filteredProducts)
 			}
@@ -63,7 +63,7 @@ const AuthorFilter: React.FC<FilterProps> = ({ setFiltered }) => {
 	}
 
 	const filteredAuthor = allProducts.filter((Author) => {
-		return Author.author.toLowerCase().includes(searchTerm.toLowerCase())
+		return Author.author && Author.author.toLowerCase().includes(searchTerm.toLowerCase())
 	})
 
 	return (
@@ -71,13 +71,19 @@ const AuthorFilter: React.FC<FilterProps> = ({ setFiltered }) => {
 			<div className='brandList'>
 				{filteredAuthor.length > 0 ? (
 					filteredAuthor.map((Author) => {
+						if (!Author.author) {
+							return null
+						}
+
 						return (
 							<div className='brandItem' key={Author.productID}>
 								<input
 									type='checkbox'
 									checked={selectedAuthor.includes(Author.author)}
 									onChange={(): void => {
-										handleAuthorChange(Author.author)
+										if (Author.author) {
+											handleAuthorChange(Author.author)
+										}
 									}}
 									id={`author-${Author.productID}`}
 									className='brandRadio'
