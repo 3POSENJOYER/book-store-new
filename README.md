@@ -71,9 +71,7 @@ This project is developed by a team of students as part of an educational course
 3. Set up environment variables  
    Create `.env` files in both `frontend` and `backend` directories (see `.env.example`)
 
-4. Run PostgreSQL and create the database
-
-5. Start the development servers
+4. Start the development servers
    ```bash
    # Backend
    cd backend
