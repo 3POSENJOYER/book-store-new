@@ -27,7 +27,7 @@ Users can:
 - **NestJS** (Node.js framework with TypeScript support)
 
 ### Database
-- **PostgreSQL** – relational database for storing books, users, orders, and reviews
+- **MongoDb** – database 
 
 ### Development Environment
 - **Node.js**
